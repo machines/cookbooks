@@ -88,11 +88,22 @@ data_bag("apps").each do |a|
     group app['group']
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
-    # action app['force'][app['environment']] ? :force_deploy : :deploy
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-    restart_command "touch tmp/restart.txt"
+    # action app['force'][app['environment']] ? :force_deploy : :deploy
+    # restart_command "touch tmp/restart.txt"
 
     before_migrate do
+
+      template "#{release_path}/.rbenv-version" do
+        source "rbenv-version.erb"
+        owner app["owner"]
+        group app["group"]
+        mode "644"
+        variables(
+          :ruby_version => app['ruby_version']
+        )
+      end
+
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
