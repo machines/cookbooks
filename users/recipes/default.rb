@@ -1,6 +1,9 @@
 sysadmin_group = Array.new
 
-data_bag("users").eacho do |u|
+data_bag("users").each do |user|
+
+  u = data_bag_item("users", user)
+
   sysadmin_group << u['id']
 
   home_dir = "/home/#{u['id']}"
