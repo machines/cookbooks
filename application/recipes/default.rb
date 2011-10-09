@@ -109,22 +109,22 @@ data_bag("apps").each do |a|
       # "app_config.yml" => "config/app_config.yml"
     })
 
-    if app['migrate'][app['environment']] && node[:apps][app['id']][app['environment']][:run_migrations]
-      migrate true
-      migration_command app['migration_command'] || "rake db:migrate"
-    else
-      migrate false
-    end
-    before_symlink do
-      ruby_block "remove_run_migrations" do
-        block do
-          if node.role?("#{app['id']}_run_migrations")
-            Chef::Log.info("Migrations were run, removing role[#{app['id']}_run_migrations]")
-            node.run_list.remove("role[#{app['id']}_run_migrations]")
-          end
-        end
-      end
-    end
+    # if app['migrate'][app['environment']] && node[:apps][app['id']][app['environment']][:run_migrations]
+    #   migrate true
+    #   migration_command app['migration_command'] || "rake db:migrate"
+    # else
+    #   migrate false
+    # end
+    # before_symlink do
+    #   ruby_block "remove_run_migrations" do
+    #     block do
+    #       if node.role?("#{app['id']}_run_migrations")
+    #         Chef::Log.info("Migrations were run, removing role[#{app['id']}_run_migrations]")
+    #         node.run_list.remove("role[#{app['id']}_run_migrations]")
+    #       end
+    #     end
+    #   end
+    # end
   end
 
 end
