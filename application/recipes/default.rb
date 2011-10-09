@@ -6,16 +6,16 @@ app_keys = []
 data_bag("apps").each do |a|
 
   app = data_bag_item("apps", a)
+  recipe = app["type"]
 
-  app["type"].each do |recipe|
-    unless node.run_state[:"#{recipe}_apps"]
-      node.run_state[:"#{recipe}_apps"] = []
-      app_keys << :"#{recipe}_apps"
-    end
-
-    node.run_state[:"#{recipe}_apps"] << app
-    recipe_keys << recipe
+  unless node.run_state[:"#{recipe}_apps"]
+    node.run_state[:"#{recipe}_apps"] = []
+    app_keys << :"#{recipe}_apps"
   end
+
+  node.run_state[:"#{recipe}_apps"] << app
+  recipe_keys << recipe
+
 end
 
 # Include all the recipies we need
