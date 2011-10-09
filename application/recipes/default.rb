@@ -88,20 +88,18 @@ data_bag("apps").each do |a|
     group app['group']
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
-    action app['force'][app['environment']] ? :force_deploy : :deploy
+    # action app['force'][app['environment']] ? :force_deploy : :deploy
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
     restart_command "touch tmp/restart.txt"
 
     before_migrate do
-      if app['gems'].has_key?('bundler')
-        link "#{release_path}/vendor/bundle" do
-          to "#{app['deploy_to']}/shared/vendor_bundle"
-        end
-        common_groups = %w{development test staging production}
-        execute "bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec" do
-          ignore_failure true
-          cwd release_path
-        end
+      link "#{release_path}/vendor/bundle" do
+        to "#{app['deploy_to']}/shared/vendor_bundle"
+      end
+      common_groups = %w{development test staging production}
+      execute "bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec" do
+        ignore_failure true
+        cwd release_path
       end
     end
 
