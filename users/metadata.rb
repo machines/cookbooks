@@ -1,7 +1,7 @@
 maintainer       "VirtMachine"
 maintainer_email "support@virtmachine.com"
 license          "Apache 2.0"
-description      "Add deploy user"
+description      "Add deploy users"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.0.1"
 
