@@ -27,11 +27,6 @@ bash "compile_nginx_source" do
   notifies :restart, "service[nginx]"
 end
 
-service "nginx" do
-  supports :status => true, :restart => true, :reload => true
-  action :enable
-end
-
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
@@ -75,4 +70,9 @@ template "nginx.conf" do
   group "root"
   mode "0644"
   notifies :restart, "service[nginx]", :immediately
+end
+
+service "nginx" do
+  supports :status => true, :restart => true, :reload => true
+  action :enable
 end
