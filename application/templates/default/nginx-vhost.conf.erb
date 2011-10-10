@@ -14,13 +14,12 @@ upstream <%= @id %> {
 
 server {
 	<%- if @default_application -%>
-	listen 80 default_server;
+	listen 80 default;
+	server_name _;
 	<%- else -%>
-	listen 80 <%= @primary_domain_name %>;
+	listen 80;
+	server_name <%= ([@primary_domain_name] + @alternate_domain_names).join(" ") %>;
 	<%- end -%>
-
-	# List of other domain names this application answers
-	server_name <%= @alternate_domain_names.join(" ") %>;
 
 	root <%= @deploy_to %>/current/public;
 	access_log <%= node[:nginx][:log_dir] %>/<%= @id %>-access.log;
