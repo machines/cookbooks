@@ -5,7 +5,7 @@ set[:nginx][:log_dir]                = "/var/log/nginx"
 set[:nginx][:binary]                 = "/usr/sbin/nginx"
 
 set[:nginx][:user]                   = "www-data"
-default[:nginx][:worker_processes]   = cpu[:total]
+default[:nginx][:worker_processes]   = cpu[:total] * 3
 default[:nginx][:pid]                = "/var/run/nginx.pid"
 
 default[:nginx][:worker_connections] = 2048

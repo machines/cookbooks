@@ -65,18 +65,14 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  # template "/etc/nginx/sites-enabled/#{app['domain']}.conf" do
-  #   source "rails_nginx_passenger.conf.erb"
-  #   owner "root"
-  #   group "root"
-  #   mode "0644"
-  #   variables(
-  #     :environment => app['environment'],
-  #     :domain      => app['domain'],
-  #     :docroot     => app['deploy_to'] + "/current/public"
-  #   )
-  #   notifies :restart, resources(:service => "nginx"), :delayed
-  # end
+  template "/etc/nginx/sites-enabled/#{app['id']}.conf" do
+    source "nginx-vhost.conf.erb"
+    owner "root"
+    group "root"
+    mode "0644"
+    variables app.to_hash
+    notifies :restart, resources(:service => "nginx"), :delayed
+  end
 
   # Deploy the application
   deploy_revision app['id'] do

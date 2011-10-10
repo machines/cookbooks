@@ -44,6 +44,19 @@ http {
   gzip_http_version <%= node[:nginx][:gzip_http_version] %>;
   gzip_types        <%= node[:nginx][:gzip_types].join(' ') %>;
 
+	##
+	# Maintenance Pages
+	##
+	if (-f $document_root/system/maintenance.html) {
+		return 503;
+	}
+
+	error_page 503 @maintenance;
+	location @maintenance {
+		rewrite  ^(.*)$  /system/maintenance.html last;
+		break;
+	}
+
   ##
   # Virtual Host Configs
   ##
