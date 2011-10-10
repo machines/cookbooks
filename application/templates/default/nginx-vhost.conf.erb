@@ -23,8 +23,8 @@ server {
 	server_name <%= @alternate_domain_names.join(" ") %>;
 
 	root <%= @deploy_to %>/current/public;
-	access_log /var/log/nginx/<%= @id %>-access.log;
-	error_log /var/log/nginx/<%= @id %>-error.log;
+	access_log <%= node[:nginx][:log_dir] %>/<%= @id %>-access.log;
+	error_log <%= node[:nginx][:log_dir] %>/<%= @id %>-error.log;
 	rewrite_log on;
 
 	location / {

@@ -98,6 +98,14 @@ node.run_state[:rails_apps].each do |app|
         )
       end
 
+      template "#{release_path}/config/unicorn.rb" do
+        source "unicorn.rb.erb"
+        owner app["owner"]
+        group app["group"]
+        mode "644"
+        variables app.to_hash
+      end
+
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
