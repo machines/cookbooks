@@ -47,19 +47,19 @@ http {
 	##
 	# Maintenance Pages
 	##
-	if (-f $document_root/system/maintenance.html) {
-		return 503;
-	}
+	# if (-f $document_root/system/maintenance.html) {
+	# 	return 503;
+	# }
+  #
+	# error_page 503 @maintenance;
+	# location @maintenance {
+	# 	rewrite  ^(.*)$  /system/maintenance.html last;
+	# 	break;
+	# }
 
-	error_page 503 @maintenance;
-	location @maintenance {
-		rewrite  ^(.*)$  /system/maintenance.html last;
-		break;
-	}
-
-  ##
-  # Virtual Host Configs
-  ##
-  include <%= node[:nginx][:dir] %>/conf.d/*.conf;
-  include <%= node[:nginx][:dir] %>/sites-enabled/*;
+	##
+	# Virtual Host Configs
+	##
+	include <%= node[:nginx][:dir] %>/conf.d/*.conf;
+	include <%= node[:nginx][:dir] %>/sites-enabled/*;
 }
