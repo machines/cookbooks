@@ -74,6 +74,34 @@ node.run_state[:rails_apps].each do |app|
     notifies :restart, resources(:service => "nginx"), :delayed
   end
 
+  template "#{shared_path}/.rbenv-version" do
+    source "rbenv-version.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "644"
+    variables(
+      :ruby_version => app['ruby_version']
+    )
+  end
+
+  template "#{shared_path}/.rbenv-vars" do
+    source "rbenv-vars.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "644"
+    variables(
+      :env_vars => app['env_vars']
+    )
+  end
+
+  template "#{shared_path}/unicorn.rb" do
+    source "unicorn.rb.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "644"
+    variables app.to_hash
+  end
+
   # Deploy the application
   deploy_revision app['id'] do
     revision app['revision'][app['environment']]
@@ -88,24 +116,6 @@ node.run_state[:rails_apps].each do |app|
 
     before_migrate do
 
-      template "#{release_path}/.rbenv-version" do
-        source "rbenv-version.erb"
-        owner app["owner"]
-        group app["group"]
-        mode "644"
-        variables(
-          :ruby_version => app['ruby_version']
-        )
-      end
-
-      template "#{release_path}/config/unicorn.rb" do
-        source "unicorn.rb.erb"
-        owner app["owner"]
-        group app["group"]
-        mode "644"
-        variables app.to_hash
-      end
-
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
@@ -118,8 +128,9 @@ node.run_state[:rails_apps].each do |app|
 
     symlink_before_migrate({
       "database.yml"   => "config/database.yml"
-      # "sunspot.yml"    => "config/sunspot.yml",
-      # "app_config.yml" => "config/app_config.yml"
+      "unicorn.rb"     => "config/unicorn.rb"
+      ".rbenv-version" => ".rbenv-version"
+      ".rbenv-vars"    => ".rbenv-vars"
     })
 
     # if app['migrate'][app['environment']] && node[:apps][app['id']][app['environment']][:run_migrations]
