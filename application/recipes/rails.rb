@@ -74,7 +74,7 @@ node.run_state[:rails_apps].each do |app|
     notifies :restart, resources(:service => "nginx"), :delayed
   end
 
-  template "#{shared_path}/.rbenv-version" do
+  template "#{app['deploy_to']}/shared/.rbenv-version" do
     source "rbenv-version.erb"
     owner app["owner"]
     group app["group"]
@@ -84,7 +84,7 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  template "#{shared_path}/.rbenv-vars" do
+  template "#{app['deploy_to']}/shared/.rbenv-vars" do
     source "rbenv-vars.erb"
     owner app["owner"]
     group app["group"]
@@ -94,7 +94,7 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  template "#{shared_path}/unicorn.rb" do
+  template "#{app['deploy_to']}/shared/unicorn.rb" do
     source "unicorn.rb.erb"
     owner app["owner"]
     group app["group"]
