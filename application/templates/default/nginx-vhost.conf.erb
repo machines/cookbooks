@@ -48,13 +48,10 @@ server {
 		proxy_temp_file_write_size 64k;
 	}
 
-	# if the request is for a static resource, nginx should serve it directly
-	# and add a far future expires header to it, making the browser
-	# cache the resource and navigate faster over the website
-	# this probably needs some work with Rails 3.1's asset pipe_line
-	# location ~ ^/(images|javascripts|stylesheets|system)/  {
-	#   root <%= @deploy_to %>/current/public;
-	#   expires max;
-	#   break;
-	# }
+	location ~ ^/(assets)/  {
+		root <%= @deploy_to %>/current/public;
+		gzip_static on; # to serve pre-gzipped version
+		expires max;
+		add_header  Cache-Control public;
+	}
 }
