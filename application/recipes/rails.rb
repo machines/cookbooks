@@ -127,9 +127,9 @@ node.run_state[:rails_apps].each do |app|
     end
 
     symlink_before_migrate({
-      "database.yml"   => "config/database.yml"
-      "unicorn.rb"     => "config/unicorn.rb"
-      ".rbenv-version" => ".rbenv-version"
+      "database.yml"   => "config/database.yml",
+      "unicorn.rb"     => "config/unicorn.rb",
+      ".rbenv-version" => ".rbenv-version",
       ".rbenv-vars"    => ".rbenv-vars"
     })
 
