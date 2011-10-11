@@ -26,13 +26,14 @@ default[:nginx][:gzip_comp_level]   = 2
 default[:nginx][:gzip_min_length]   = "1024"
 default[:nginx][:gzip_buffers]      = "16 8k"
 default[:nginx][:gzip_http_version] = "1.1"
-default[:nginx][:gzip_types] = [      "text/plain",
-                                      "text/html",
-                                      "text/css",
-                                      "text/javascript",
-                                      "application/json",
-                                      "application/x-javascript",
-                                      "text/xml",
-                                      "application/xml",
-                                      "application/xml+rss"
-                                ]
+default[:nginx][:gzip_types] = [
+  "text/plain",
+  "text/html",
+  "text/css",
+  "text/javascript",
+  "application/json",
+  "application/x-javascript",
+  "text/xml",
+  "application/xml",
+  "application/xml+rss"
+]
