@@ -19,7 +19,7 @@ node.run_state[:rails_apps].each do |app|
   end
 
   # Create shared directories (owned by the deploy user)
-  %w{ log pids system vendor_bundle }.each do |dir|
+  %w{ log pids system vendor_bundle config }.each do |dir|
     directory "#{app['deploy_to']}/shared/#{dir}" do
       owner app['owner']
       group app['group']
@@ -54,7 +54,7 @@ node.run_state[:rails_apps].each do |app|
     end
   end
 
-  template "#{app['deploy_to']}/shared/database.yml" do
+  template "#{app['deploy_to']}/shared/config/database.yml" do
     source "database.yml.erb"
     owner app["owner"]
     group app["group"]
@@ -74,7 +74,7 @@ node.run_state[:rails_apps].each do |app|
     notifies :restart, resources(:service => "nginx"), :delayed
   end
 
-  template "#{app['deploy_to']}/shared/.rbenv-version" do
+  template "#{app['deploy_to']}/shared/config/rbenv-version" do
     source "rbenv-version.erb"
     owner app["owner"]
     group app["group"]
@@ -84,7 +84,7 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  template "#{app['deploy_to']}/shared/.rbenv-vars" do
+  template "#{app['deploy_to']}/shared/config/rbenv-vars" do
     source "rbenv-vars.erb"
     owner app["owner"]
     group app["group"]
@@ -94,7 +94,7 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  template "#{app['deploy_to']}/shared/unicorn.rb" do
+  template "#{app['deploy_to']}/shared/config/unicorn.rb" do
     source "unicorn.rb.erb"
     owner app["owner"]
     group app["group"]
@@ -130,8 +130,8 @@ node.run_state[:rails_apps].each do |app|
     symlink_before_migrate({
       "database.yml"   => "config/database.yml",
       "unicorn.rb"     => "config/unicorn.rb",
-      ".rbenv-version" => ".rbenv-version",
-      ".rbenv-vars"    => ".rbenv-vars"
+      ".rbenv-version" => "config/rbenv-version",
+      ".rbenv-vars"    => "config/rbenv-vars"
     })
 
     # if app['migrate'][app['environment']] && node[:apps][app['id']][app['environment']][:run_migrations]
