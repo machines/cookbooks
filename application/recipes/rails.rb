@@ -19,7 +19,7 @@ node.run_state[:rails_apps].each do |app|
   end
 
   # Create shared directories (owned by the deploy user)
-  %w{ log pids system vendor_bundle }.each do |dir|
+  %w{ log pids system vendor_bundle bin }.each do |dir|
     directory "#{app['deploy_to']}/shared/#{dir}" do
       owner app['owner']
       group app['group']
@@ -58,7 +58,7 @@ node.run_state[:rails_apps].each do |app|
     source "database.yml.erb"
     owner app["owner"]
     group app["group"]
-    mode "644"
+    mode "0644"
     variables(
       :databases   => app['databases'],
       :environment => app['environment']
@@ -78,7 +78,7 @@ node.run_state[:rails_apps].each do |app|
     source "rbenv-version.erb"
     owner app["owner"]
     group app["group"]
-    mode "644"
+    mode "0644"
     variables(
       :ruby_version => app['ruby_version']
     )
@@ -88,7 +88,7 @@ node.run_state[:rails_apps].each do |app|
     source "rbenv-vars.erb"
     owner app["owner"]
     group app["group"]
-    mode "644"
+    mode "0644"
     variables(
       :env_vars => app['env_vars']
     )
@@ -98,8 +98,15 @@ node.run_state[:rails_apps].each do |app|
     source "unicorn.rb.erb"
     owner app["owner"]
     group app["group"]
-    mode "644"
+    mode "0644"
     variables app.to_hash
+  end
+
+  template "#{app['deploy_to']}/shared/bin/bundle" do
+    source "bundle-binstub.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "0755"
   end
 
   # Deploy the application
@@ -119,8 +126,13 @@ node.run_state[:rails_apps].each do |app|
       link "#{release_path}/vendor/bundle" do
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
+
+      link "#{release_path}/bin" do
+        to "#{app['deploy_to']}/shared/bin"
+      end
+
       common_groups = %w{development test staging production}
-      execute "bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec" do
+      execute "#{release_path}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs #{app['deploy_to']}/shared/bin --shebang ruby-local-exec" do
         ignore_failure true
         cwd release_path
       end
