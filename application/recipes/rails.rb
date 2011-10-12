@@ -19,7 +19,7 @@ node.run_state[:rails_apps].each do |app|
   end
 
   # Create shared directories (owned by the deploy user)
-  %w{ log pids system vendor_bundle bin }.each do |dir|
+  %w{ log pids system vendor_bundle }.each do |dir|
     directory "#{app['deploy_to']}/shared/#{dir}" do
       owner app['owner']
       group app['group']
@@ -102,13 +102,6 @@ node.run_state[:rails_apps].each do |app|
     variables app.to_hash
   end
 
-  template "#{app['deploy_to']}/shared/bin/bundle" do
-    source "bundle-binstub.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0755"
-  end
-
   # Deploy the application
   deploy_revision app['id'] do
     revision app['revision'][app['environment']]
@@ -127,12 +120,8 @@ node.run_state[:rails_apps].each do |app|
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
 
-      link "#{release_path}/bin" do
-        to "#{app['deploy_to']}/shared/bin"
-      end
-
       common_groups = %w{development test staging production}
-      execute "#{release_path}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs #{app['deploy_to']}/shared/bin --shebang ruby-local-exec" do
+      execute "bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec" do
         ignore_failure true
         cwd release_path
       end
