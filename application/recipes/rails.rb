@@ -102,6 +102,14 @@ node.run_state[:rails_apps].each do |app|
     variables app.to_hash
   end
 
+  template "#{app['deploy_to']}/shared/config/bluepill.unicorn.pill" do
+    source "bluepill.unicorn.pill.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "0644"
+    variables app.to_hash
+  end
+
   # Deploy the application
   deploy_revision app['id'] do
     revision app['revision'][app['environment']]
@@ -111,8 +119,8 @@ node.run_state[:rails_apps].each do |app|
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
+    restart_command "kill -s USR2 `cat /tmp/unicorn.#{app['id']}.pid`"
     # action app['force'][app['environment']] ? :force_deploy : :deploy
-    # restart_command "touch tmp/restart.txt"
 
     before_migrate do
 

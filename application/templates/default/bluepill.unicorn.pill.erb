@@ -1,0 +1,39 @@
+require 'bluepill'
+Bluepill.application("<%= @id %>", log_file: "<%= @deploy_to %>/shared/log/bluepill.log") do
+
+  process("unicorn") do
+
+    uid "<%= @owner %>"
+    gid "<%= @group %>"
+
+    working_dir     "<%= @deploy_to %>/current"
+    start_command   "<%= @deploy_to %>/current/bin/unicorn -Dc <%= @deploy_to %>/shared/config/unicorn.rb -E <%= @environment %>"
+    stop_command    "kill -QUIT {{PID}}"
+    restart_command "kill -USR2 {{PID}}"
+    pid_file        "/tmp/unicorn.<%= @id %>.pid"
+
+    start_grace_time   20.seconds
+    restart_grace_time 20.seconds
+
+    checks :cpu_usage,
+      every: 10.seconds,
+      below: 30,
+      times: 3
+    checks :mem_usage,
+      every: 10.seconds,
+      below: 500.megabytes,
+      times: [3,5]
+
+    # monitor_children do
+    #   stop_command = "kill -QUIT {{PID}}"
+    #   checks :cpu_usage,
+    #     every: 10,
+    #     below: 25,
+    #     times: 3
+    #   checks :mem_usage,
+    #     every: 10,
+    #     below: 200.megabytes,
+    #     times: [3, 5]
+    # end
+  end
+end
