@@ -119,7 +119,7 @@ node.run_state[:rails_apps].each do |app|
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-    restart_command "kill -s USR2 `cat /tmp/unicorn.#{app['id']}.pid`"
+    # restart_command "kill -s USR2 `cat /tmp/unicorn.#{app['id']}.pid`"
     # action app['force'][app['environment']] ? :force_deploy : :deploy
 
     before_migrate do
