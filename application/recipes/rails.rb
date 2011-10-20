@@ -129,7 +129,7 @@ node.run_state[:rails_apps].each do |app|
       end
 
       common_groups = %w{development test staging production}
-      execute %(/opt/rubies/#{app['ruby']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec") do
+      execute %(/opt/rubies/#{app['ruby_version']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec") do
         ignore_failure true
         cwd release_path
       end
