@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+if [ -f /tmp/unicorn.<%= @id %>.pid ]
+then
+  kill -s USR2 `cat /tmp/unicorn.<%= @id%>.pid`
+fi
