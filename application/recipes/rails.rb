@@ -19,7 +19,7 @@ node.run_state[:rails_apps].each do |app|
   end
 
   # Create shared directories (owned by the deploy user)
-  %w{ log pids system vendor_bundle config }.each do |dir|
+  %w{ log pids system vendor_bundle config scripts god }.each do |dir|
     directory "#{app['deploy_to']}/shared/#{dir}" do
       owner app['owner']
       group app['group']
@@ -102,11 +102,19 @@ node.run_state[:rails_apps].each do |app|
     variables app.to_hash
   end
 
-  template "#{app['deploy_to']}/shared/config/unicorn.god" do
+  template "#{app['deploy_to']}/shared/god/unicorn.god" do
     source "unicorn.god.erb"
     owner app["owner"]
     group app["group"]
     mode "0644"
+    variables app.to_hash
+  end
+
+  template "#{app['deploy_to']}/shared/scripts/start_unicorn" do
+    source "start_unicorn.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "0755"
     variables app.to_hash
   end
 

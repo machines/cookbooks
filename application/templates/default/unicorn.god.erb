@@ -3,7 +3,7 @@ God.watch do |w|
   w.interval = 30.seconds # default
 
   # unicorn needs to be run from the rails root
-  w.start = "source /etc/profile && cd <%= @deploy_to %>/current && ./bin/unicorn -c <%= @deploy_to %>/shared/config/unicorn.rb -E engineering -D"
+  w.start = "bash -c '<%= @deploy_to %>/shared/scripts/start_unicorn'"
 
   # QUIT gracefully shuts down workers
   w.stop = "kill -QUIT `cat /tmp/unicorn.<%= @id %>.pid`"
@@ -14,9 +14,7 @@ God.watch do |w|
   w.start_grace = 20.seconds
   w.restart_grace = 20.seconds
   w.pid_file = "/tmp/unicorn.<%= @id %>.pid"
-
-  w.uid = '<%= @owner %>'
-  w.gid = '<%= @group %>'
+	w.log = "<%= @deploy_to %>/shared/log/god.unicorn.log"
 
   w.behavior(:clean_pid_file)
 
