@@ -14,7 +14,10 @@ God.watch do |w|
   w.start_grace = 20.seconds
   w.restart_grace = 20.seconds
   w.pid_file = "/tmp/unicorn.<%= @id %>.pid"
-	w.log = "<%= @deploy_to %>/shared/log/god.unicorn.log"
+  w.log = "<%= @deploy_to %>/shared/log/god.unicorn.log"
+
+  w.uid = "<%= @owner %>"
+  w.gid = "<%= @group %>"
 
   w.behavior(:clean_pid_file)
 
