@@ -102,8 +102,8 @@ node.run_state[:rails_apps].each do |app|
     variables app.to_hash
   end
 
-  template "#{app['deploy_to']}/shared/config/bluepill.unicorn.pill" do
-    source "bluepill.unicorn.pill.erb"
+  template "#{app['deploy_to']}/shared/config/unicorn.god" do
+    source "unicorn.god.erb"
     owner app["owner"]
     group app["group"]
     mode "0644"
