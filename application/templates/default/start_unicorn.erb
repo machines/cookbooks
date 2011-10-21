@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 APP_PATH=<%= @deploy_to %>
 PATH=/usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH
-RAILS_ENV=<%= @framework_env %>
+RAILS_ENV=<%= @environment %>
 
 cd $APP_PATH/current
 bin/unicorn -c $APP_PATH/shared/config/unicorn.rb -E $RAILS_ENV -D
