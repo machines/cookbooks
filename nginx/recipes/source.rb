@@ -12,7 +12,7 @@ configure_flags = [
 ].join(" ")
 
 remote_file "/usr/local/src/nginx-#{node[:nginx][:version]}.tar.gz" do
-  source "http://sysoev.ru/nginx/nginx-#{node[:nginx][:version]}.tar.gz"
+  source "http://nginx.org/download/nginx-#{node[:nginx][:version]}.tar.gz"
   action :create_if_missing
 end
 
