@@ -144,11 +144,11 @@ node.run_state[:rails_apps].each do |app|
       end
 
       common_groups = %w{development test staging production}
-      execute %(cd #{release_path}/current && /opt/rubies/#{app['ruby_version']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec)
+      execute %(cd #{release_path} && /opt/rubies/#{app['ruby_version']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec)
     end
 
     before_restart do
-      execute "cd #{release_path}/current && ./bin/rake assets:precompile"
+      execute "cd #{release_path} && ./bin/rake assets:precompile"
     end
 
     after_restart do
