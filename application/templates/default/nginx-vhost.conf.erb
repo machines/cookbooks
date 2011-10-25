@@ -48,7 +48,7 @@ server {
 		proxy_temp_file_write_size 64k;
 	}
 
-	location ~ ^/(assets)/  {
+	location ~ ^/(assets|stylesheets|javascripts|images)/  {
 		root <%= @deploy_to %>/current/public;
 		gzip_static on; # to serve pre-gzipped version
 		expires max;
