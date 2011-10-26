@@ -158,7 +158,7 @@ node.run_state[:rails_apps].each do |app|
     end
 
     after_restart do
-      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
+      execute "/opt/rubies/1.9.3-rc1/bin/god && /opt/rubies/1.9.3-rc1/bin/god load #{app['deploy_to']}/shared/god/unicorn.god"
     end
 
     symlink_before_migrate({
