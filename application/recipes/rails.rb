@@ -158,10 +158,7 @@ node.run_state[:rails_apps].each do |app|
     end
 
     after_restart do
-      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god" do
-        user app['owner']
-        group app['group']
-      end
+      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
     end
 
     symlink_before_migrate({
