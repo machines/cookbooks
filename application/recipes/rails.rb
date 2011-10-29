@@ -151,9 +151,10 @@ node.run_state[:rails_apps].each do |app|
     end
 
     before_restart do
-      execute "cd #{release_path} && #{release_path}/bin/rake assets:precompile" do
+      execute "#{release_path}/bin/rake assets:precompile" do
         user app['owner']
         group app['group']
+        environment "PATH" => "/usr/local/rbenv/bin:/usr/local/rbenv/shims:$PATH"
       end
     end
 
