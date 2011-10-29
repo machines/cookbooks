@@ -1,5 +1,3 @@
-include_recipe "build-essential"
-
 user "redis" do
   comment "Redis Administrator"
   system true
