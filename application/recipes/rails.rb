@@ -151,7 +151,7 @@ node.run_state[:rails_apps].each do |app|
     end
 
     before_restart do
-      execute "cd #{release_path} && ./bin/rake assets:precompile" do
+      execute "cd #{release_path} && #{release_path}/bin/rake assets:precompile" do
         user app['owner']
         group app['group']
       end
