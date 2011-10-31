@@ -143,6 +143,18 @@ node.run_state[:rails_apps].each do |app|
         to "#{app['deploy_to']}/shared/vendor_bundle"
       end
 
+      link "#{release_path}/.rbenv-version" do
+        to "#{app['deploy_to']}/shared/config/rbenv-version"
+      end
+
+      link "#{release_path}/.rbenv-vars" do
+        to "#{app['deploy_to']}/shared/config/rbenv-vars"
+      end
+
+      link "#{release_path}/config/unicorn.rb" do
+        to "#{app['deploy_to']}/shared/config/unicorn.rb"
+      end
+
       common_groups = %w{development test staging production}
       execute %(bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec) do
         cwd release_path
@@ -164,10 +176,7 @@ node.run_state[:rails_apps].each do |app|
     end
 
     symlink_before_migrate({
-      "config/database.yml"   => "config/database.yml",
-      "config/unicorn.rb"     => "config/unicorn.rb",
-      "config/rbenv-version"  => ".rbenv-version",
-      "config/rbenv-vars"     => ".rbenv-vars"
+      "config/database.yml"   => "config/database.yml"
     })
 
     # if app['migrate'][app['environment']] && node[:apps][app['id']][app['environment']][:run_migrations]
