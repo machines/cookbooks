@@ -1,6 +1,6 @@
 node.run_state[:rails_apps].each do |app|
 
-  env_vars = app["env_vars"].merge("RBENV_VERSION" => app["ruby_version"])
+  env_vars = app["env_vars"] + [{"RBENV_VERSION" => app["ruby_version"]}]
 
   # Install any application-specific packages
   if app['packages']
