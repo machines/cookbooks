@@ -169,7 +169,7 @@ node.run_state[:rails_apps].each do |app|
         cwd release_path
         user app['owner']
         group app['group']
-        code "echo `rbenv vars`"
+        code "echo `env`"
       end
       bash "Precompile assets" do
         cwd release_path
