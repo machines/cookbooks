@@ -165,6 +165,12 @@ node.run_state[:rails_apps].each do |app|
     end
 
     before_restart do
+      bash "Show rbenv vars" do
+        cwd release_path
+        user app['owner']
+        group app['group']
+        code "echo `rbenv vars`"
+      end
       bash "Precompile assets" do
         cwd release_path
         user app['owner']
