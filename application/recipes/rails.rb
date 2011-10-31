@@ -156,18 +156,20 @@ node.run_state[:rails_apps].each do |app|
       end
 
       common_groups = %w{development test staging production}
-      execute %(bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec) do
+      bash "Install app gems with bundle install" do
         cwd release_path
         user app['owner']
         group app['group']
+        code "(bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec"
       end
     end
 
     before_restart do
-      execute "#{release_path}/bin/rake assets:precompile" do
+      bash "Precompile assets" do
         cwd release_path
         user app['owner']
         group app['group']
+        code "#{release_path}/bin/rake assets:precompile"
       end
     end
 
