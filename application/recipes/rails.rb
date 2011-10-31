@@ -1,5 +1,7 @@
 node.run_state[:rails_apps].each do |app|
 
+  env_vars = app["env_vars"].merge("RBENV_VERSION" => app["ruby_version"])
+
   # Install any application-specific packages
   if app['packages']
     app['packages'].each do |pkg, ver|
@@ -157,6 +159,7 @@ node.run_state[:rails_apps].each do |app|
 
       common_groups = %w{development test staging production}
       bash "Install app gems with bundle install" do
+        environment env_vars
         cwd release_path
         user app['owner']
         group app['group']
@@ -165,13 +168,8 @@ node.run_state[:rails_apps].each do |app|
     end
 
     before_restart do
-      bash "Show rbenv vars" do
-        cwd release_path
-        user app['owner']
-        group app['group']
-        code "echo `env`"
-      end
       bash "Precompile assets" do
+        environment env_vars
         cwd release_path
         user app['owner']
         group app['group']
