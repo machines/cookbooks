@@ -144,21 +144,21 @@ node.run_state[:rails_apps].each do |app|
       end
 
       common_groups = %w{development test staging production}
-      execute %(cd #{release_path} && /opt/rubies/#{app['ruby_version']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec) do
+      execute %(cd #{release_path} && bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec) do
         user app['owner']
         group app['group']
       end
     end
 
     before_restart do
-      execute "source /etc/profile && #{release_path}/bin/rake assets:precompile" do
+      execute "#{release_path}/bin/rake assets:precompile" do
         user app['owner']
         group app['group']
       end
     end
 
     after_restart do
-      execute "/opt/rubies/1.9.3-rc1/bin/god && /opt/rubies/1.9.3-rc1/bin/god load #{app['deploy_to']}/shared/god/unicorn.god"
+      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
     end
 
     symlink_before_migrate({
