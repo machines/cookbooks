@@ -167,7 +167,7 @@ node.run_state[:rails_apps].each do |app|
         cwd release_path
         user app['owner']
         group app['group']
-        code "/opt/rubies/#{app['ruby']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec"
+        code "/opt/rubies/#{app['ruby_version']}/bin/bundle install --deployment --without #{(common_groups -([app['environment']])).join(' ')} --binstubs --shebang ruby-local-exec"
       end
     end
 
