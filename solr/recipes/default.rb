@@ -47,10 +47,6 @@ link "#{node.jetty.home}/webapps/#{node.solr.context_path}" do
   to node.solr.home
 end
 
-link "#{node.jetty.home}/webapps/#{node.solr.context_path}/data" do
-  to node.solr.data
-end
-
 template "#{node.jetty.home}/contexts/solr.xml" do
   owner  node.jetty.user
   source "solr.context.erb"
