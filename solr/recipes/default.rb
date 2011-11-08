@@ -7,9 +7,9 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     http://www.apache.org/licenses/LICENSE-2.0
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,6 +41,14 @@ directory node.solr.data do
   group     node.jetty.group
   recursive true
   mode      "750"
+end
+
+link "#{node.jetty.home}/webapps/#{node.solr.context_path}" do
+  to node.solr.home
+end
+
+link "#{node.jetty.home}/webapps/#{node.solr.context_path}/data" do
+  to node.solr.data
 end
 
 template "#{node.jetty.home}/contexts/solr.xml" do
