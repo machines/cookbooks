@@ -1,5 +1,6 @@
 node.run_state[:rails_apps].each do |app|
 
+  # Setup application environment variables
   env_vars = {}
   app["env_vars"].each do |var|
     env_vars[var["key"]] = var["value"]
@@ -178,6 +179,9 @@ node.run_state[:rails_apps].each do |app|
         user app['owner']
         group app['group']
         code "#{release_path}/bin/rake assets:precompile"
+        only_if nil, :environment => env_vars, :cwd => release_path do
+          File.exists?("./bin/rake") && `#{release_path}/bin/rake -T`.include?("rake assets:precompile")
+        end
       end
     end
 
