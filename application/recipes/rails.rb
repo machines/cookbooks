@@ -199,9 +199,7 @@ node.run_state[:rails_apps].each do |app|
         user app['owner']
         group app['group']
         code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
-        only_if nil, :environment => env_vars, :cwd => release_path do
-          node[:role_names].include?("cron") && File.exists?("./bin/whenever")
-        end
+        only_if { node[:role_names].include?("cron") && File.exists?("#{release_path}/bin/whenever") }
       end
     end
 
