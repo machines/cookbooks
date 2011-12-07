@@ -72,6 +72,26 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
+  template "#{app['deploy_to']}/shared/config/rbenv-version" do
+    source "rbenv-version.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "0644"
+    variables(
+      :ruby_version => app['ruby_version']
+    )
+  end
+
+  template "#{app['deploy_to']}/shared/config/rbenv-vars" do
+    source "rbenv-vars.erb"
+    owner app["owner"]
+    group app["group"]
+    mode "0644"
+    variables(
+      :env_vars => app['env_vars']
+    )
+  end
+
   if node[:role_names].include?("web")
     template "/etc/nginx/sites-enabled/#{app['id']}.conf" do
       source "nginx-vhost.conf.erb"
@@ -113,26 +133,6 @@ node.run_state[:rails_apps].each do |app|
       mode "0755"
       variables app.to_hash
     end
-  end
-
-  template "#{app['deploy_to']}/shared/config/rbenv-version" do
-    source "rbenv-version.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0644"
-    variables(
-      :ruby_version => app['ruby_version']
-    )
-  end
-
-  template "#{app['deploy_to']}/shared/config/rbenv-vars" do
-    source "rbenv-vars.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0644"
-    variables(
-      :env_vars => app['env_vars']
-    )
   end
 
   # Deploy the application
@@ -189,17 +189,19 @@ node.run_state[:rails_apps].each do |app|
     end
 
     after_restart do
-      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god" do
-        only_if node[:role_names].include?("web")
+      if node[:role_names].include?("web")
+        execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
       end
 
-      bash "Update crontab" do
-        environment env_vars
-        cwd release_path
-        user app['owner']
-        group app['group']
-        code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
-        only_if node[:role_names].include?("cron") && File.exists?("./bin/whenever")
+      if node[:role_names].include?("cron")
+        bash "Update crontab" do
+          environment env_vars
+          cwd release_path
+          user app['owner']
+          group app['group']
+          code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
+          only_if File.exists?("./bin/whenever")
+        end
       end
 
     end
