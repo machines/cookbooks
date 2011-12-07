@@ -79,6 +79,7 @@ node.run_state[:rails_apps].each do |app|
     mode "0644"
     variables app.to_hash
     notifies :restart, resources(:service => "nginx"), :delayed
+    only_if node[:role_names].include?("web")
   end
 
   template "#{app['deploy_to']}/shared/config/rbenv-version" do
@@ -107,6 +108,7 @@ node.run_state[:rails_apps].each do |app|
     group app["group"]
     mode "0644"
     variables app.to_hash
+    only_if node[:role_names].include?("web")
   end
 
   template "#{app['deploy_to']}/shared/god/unicorn.god" do
@@ -115,6 +117,7 @@ node.run_state[:rails_apps].each do |app|
     group app["group"]
     mode "0644"
     variables app.to_hash
+    only_if node[:role_names].include?("web")
   end
 
   template "#{app['deploy_to']}/shared/scripts/start_unicorn" do
@@ -123,6 +126,7 @@ node.run_state[:rails_apps].each do |app|
     group app["group"]
     mode "0755"
     variables app.to_hash
+    only_if node[:role_names].include?("web")
   end
 
   template "#{app['deploy_to']}/shared/scripts/restart_app" do
@@ -131,6 +135,7 @@ node.run_state[:rails_apps].each do |app|
     group app["group"]
     mode "0755"
     variables app.to_hash
+    only_if node[:role_names].include?("web")
   end
 
   # Deploy the application
@@ -142,7 +147,7 @@ node.run_state[:rails_apps].each do |app|
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-    restart_command "#{app['deploy_to']}/shared/scripts/restart_app"
+    restart_command "#{app['deploy_to']}/shared/scripts/restart_app" if node[:role_names].include?("web")
     # action app['force'][app['environment']] ? :force_deploy : :deploy
 
     before_migrate do
@@ -160,6 +165,7 @@ node.run_state[:rails_apps].each do |app|
 
       link "#{release_path}/config/unicorn.rb" do
         to "#{app['deploy_to']}/shared/config/unicorn.rb"
+        only_if node[:role_names].include?("web")
       end
 
       common_groups = %w{development test staging production}
@@ -180,13 +186,25 @@ node.run_state[:rails_apps].each do |app|
         group app['group']
         code "#{release_path}/bin/rake assets:precompile"
         only_if nil, :environment => env_vars, :cwd => release_path do
-          File.exists?("./bin/rake") && `#{release_path}/bin/rake -T`.include?("rake assets:precompile")
+          node[:role_names].include?("web") && File.exists?("./bin/rake") && `#{release_path}/bin/rake -T`.include?("rake assets:precompile")
         end
       end
     end
 
     after_restart do
-      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
+      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god" do
+        only_if node[:role_names].include?("web")
+      end
+
+      bash "Update crontab" do
+        environment env_vars
+        cwd release_path
+        user app['owner']
+        group app['group']
+        code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
+        only_if node[:role_names].include?("cron") && File.exists?("./bin/whenever")
+      end
+
     end
 
     symlink_before_migrate({
