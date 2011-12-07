@@ -162,7 +162,7 @@ node.run_state[:rails_apps].each do |app|
 
       link "#{release_path}/config/unicorn.rb" do
         to "#{app['deploy_to']}/shared/config/unicorn.rb"
-        only_if node[:role_names].include?("web")
+        only_if { node[:role_names].include?("web") }
       end
 
       common_groups = %w{development test staging production}
@@ -189,21 +189,18 @@ node.run_state[:rails_apps].each do |app|
     end
 
     after_restart do
-      if node[:role_names].include?("web")
-        execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god"
+      execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god" do
+        only_if { node[:role_names].include?("web") }
       end
 
-      if node[:role_names].include?("cron")
-        bash "Update crontab" do
-          environment env_vars
-          cwd release_path
-          user app['owner']
-          group app['group']
-          code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
-          only_if { File.exists?("./bin/whenever") }
-        end
+      bash "Update crontab" do
+        environment env_vars
+        cwd release_path
+        user app['owner']
+        group app['group']
+        code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
+        only_if { node[:role_names].include?("cron") && File.exists?("./bin/whenever") }
       end
-
     end
 
     symlink_before_migrate({
