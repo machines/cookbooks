@@ -142,7 +142,7 @@ node.run_state[:rails_apps].each do |app|
     user app['owner']
     group app['group']
     deploy_to app['deploy_to']
-    environment 'RAILS_ENV' => app['environment']
+    environment env_vars
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
     restart_command "#{app['deploy_to']}/shared/scripts/restart_app" if node[:role_names].include?("web")
     # action app['force'][app['environment']] ? :force_deploy : :deploy
@@ -199,7 +199,9 @@ node.run_state[:rails_apps].each do |app|
         user app['owner']
         group app['group']
         code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
-        only_if { node[:role_names].include?("cron") && File.exists?("./bin/whenever") }
+        only_if nil, :environment => env_vars, :cwd => release_path do
+          node[:role_names].include?("cron") && File.exists?("./bin/whenever")
+        end
       end
     end
 
