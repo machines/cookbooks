@@ -92,7 +92,7 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  if node.role_names.include?("web")
+  if node[:role_names].include?("web")
     template "/etc/nginx/sites-enabled/#{app['id']}.conf" do
       source "nginx-vhost.conf.erb"
       owner "root"
@@ -144,7 +144,7 @@ node.run_state[:rails_apps].each do |app|
     deploy_to app['deploy_to']
     environment 'RAILS_ENV' => app['environment']
     ssh_wrapper "#{app['deploy_to']}/deploy-ssh-wrapper" if app['deploy_key']
-    restart_command "#{app['deploy_to']}/shared/scripts/restart_app" if node.role_names.include?("web")
+    restart_command "#{app['deploy_to']}/shared/scripts/restart_app" if node[:role_names].include?("web")
     # action app['force'][app['environment']] ? :force_deploy : :deploy
 
     before_migrate do
@@ -162,7 +162,7 @@ node.run_state[:rails_apps].each do |app|
 
       link "#{release_path}/config/unicorn.rb" do
         to "#{app['deploy_to']}/shared/config/unicorn.rb"
-        only_if { node.role_names.include?("web") }
+        only_if { node[:role_names].include?("web") }
       end
 
       common_groups = %w{development test staging production}
@@ -183,14 +183,14 @@ node.run_state[:rails_apps].each do |app|
         group app['group']
         code "#{release_path}/bin/rake assets:precompile"
         only_if nil, :environment => env_vars, :cwd => release_path do
-          node.role_names.include?("web") && File.exists?("./bin/rake") && `#{release_path}/bin/rake -T`.include?("rake assets:precompile")
+          node[:role_names].include?("web") && File.exists?("./bin/rake") && `#{release_path}/bin/rake -T`.include?("rake assets:precompile")
         end
       end
     end
 
     after_restart do
       execute "god && god load #{app['deploy_to']}/shared/god/unicorn.god" do
-        only_if { node.role_names.include?("web") }
+        only_if { node[:role_names].include?("web") }
       end
 
       bash "Update crontab" do
@@ -199,7 +199,7 @@ node.run_state[:rails_apps].each do |app|
         user app['owner']
         group app['group']
         code "#{release_path}/bin/whenever -i #{app['id']} --update-crontab"
-        only_if { node.role_names.include?("cron") && File.exists?("./bin/whenever") }
+        only_if { node[:role_names].include?("cron") && File.exists?("./bin/whenever") }
       end
     end
 
