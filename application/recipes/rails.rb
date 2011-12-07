@@ -72,14 +72,47 @@ node.run_state[:rails_apps].each do |app|
     )
   end
 
-  template "/etc/nginx/sites-enabled/#{app['id']}.conf" do
-    source "nginx-vhost.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-    variables app.to_hash
-    notifies :restart, resources(:service => "nginx"), :delayed
-    only_if node[:role_names].include?("web")
+  if node[:role_names].include?("web")
+    template "/etc/nginx/sites-enabled/#{app['id']}.conf" do
+      source "nginx-vhost.conf.erb"
+      owner "root"
+      group "root"
+      mode "0644"
+      variables app.to_hash
+      notifies :restart, resources(:service => "nginx"), :delayed
+    end
+
+    template "#{app['deploy_to']}/shared/config/unicorn.rb" do
+      source "unicorn.rb.erb"
+      owner app["owner"]
+      group app["group"]
+      mode "0644"
+      variables app.to_hash
+    end
+
+    template "#{app['deploy_to']}/shared/god/unicorn.god" do
+      source "unicorn.god.erb"
+      owner app["owner"]
+      group app["group"]
+      mode "0644"
+      variables app.to_hash
+    end
+
+    template "#{app['deploy_to']}/shared/scripts/start_unicorn" do
+      source "start_unicorn.erb"
+      owner app["owner"]
+      group app["group"]
+      mode "0755"
+      variables app.to_hash
+    end
+
+    template "#{app['deploy_to']}/shared/scripts/restart_app" do
+      source "restart_app.erb"
+      owner app["owner"]
+      group app["group"]
+      mode "0755"
+      variables app.to_hash
+    end
   end
 
   template "#{app['deploy_to']}/shared/config/rbenv-version" do
@@ -100,42 +133,6 @@ node.run_state[:rails_apps].each do |app|
     variables(
       :env_vars => app['env_vars']
     )
-  end
-
-  template "#{app['deploy_to']}/shared/config/unicorn.rb" do
-    source "unicorn.rb.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0644"
-    variables app.to_hash
-    only_if node[:role_names].include?("web")
-  end
-
-  template "#{app['deploy_to']}/shared/god/unicorn.god" do
-    source "unicorn.god.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0644"
-    variables app.to_hash
-    only_if node[:role_names].include?("web")
-  end
-
-  template "#{app['deploy_to']}/shared/scripts/start_unicorn" do
-    source "start_unicorn.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0755"
-    variables app.to_hash
-    only_if node[:role_names].include?("web")
-  end
-
-  template "#{app['deploy_to']}/shared/scripts/restart_app" do
-    source "restart_app.erb"
-    owner app["owner"]
-    group app["group"]
-    mode "0755"
-    variables app.to_hash
-    only_if node[:role_names].include?("web")
   end
 
   # Deploy the application
