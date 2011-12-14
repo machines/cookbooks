@@ -2,9 +2,9 @@ include_attribute "jetty"
 
 expand!
 
-default[:solr][:version]   = "3.4.0"
+default[:solr][:version]   = "3.5.0"
 default[:solr][:link]      = "http://www.bizdirusa.com/mirrors/apache/lucene/solr/#{solr.version}/apache-solr-#{solr.version}.tgz"
-default[:solr][:checksum]  = "6a5d2304c7e84a6ce340d0e5aa0fa3a25484e9df0f7f92c17ce7b483aa04a6c7"
+default[:solr][:checksum]  = "804f3ba9d1296f81388605a79538b7362355693fbdd03b7b2dbf9a706bf1d1d0"
 default[:solr][:directory] = "/usr/local/src"
 default[:solr][:download]  = "#{solr.directory}/apache-solr-#{solr.version}.tgz"
 default[:solr][:extracted] = "#{solr.directory}/apache-solr-#{solr.version}"
