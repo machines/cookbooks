@@ -30,10 +30,22 @@ end
 directory node[:nginx][:log_dir] do
   mode 0755
   owner node[:nginx][:user]
-  action :create
 end
 
 directory node[:nginx][:dir] do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+directory "/mnt/default-host/public" do
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+template "/mnt/default-host/public/index.html" do
+  source "default-site-page.html.erb"
   owner "root"
   group "root"
   mode "0755"
@@ -66,6 +78,15 @@ end
 template "nginx.conf" do
   path "#{node[:nginx][:dir]}/nginx.conf"
   source "nginx.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, "service[nginx]", :immediately
+end
+
+template "default-host.conf" do
+  path "#{node[:nginx][:dir]}/default-host.conf"
+  source "default-host.erb"
   owner "root"
   group "root"
   mode "0644"

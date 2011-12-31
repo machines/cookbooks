@@ -27,7 +27,7 @@ http {
   ##
   # Logging Settings
   ##
-  access_log	<%= node[:nginx][:log_dir] %>/access.log;
+  access_log  <%= node[:nginx][:log_dir] %>/access.log;
   error_log   <%= node[:nginx][:log_dir] %>/error.log;
 
   ##
@@ -44,22 +44,23 @@ http {
   gzip_http_version <%= node[:nginx][:gzip_http_version] %>;
   gzip_types        <%= node[:nginx][:gzip_types].join(' ') %>;
 
-	##
-	# Maintenance Pages
-	##
-	# if (-f $document_root/system/maintenance.html) {
-	# 	return 503;
-	# }
+  ##
+  # Maintenance Pages
+  ##
+  # if (-f $document_root/system/maintenance.html) {
+  #   return 503;
+  # }
   #
-	# error_page 503 @maintenance;
-	# location @maintenance {
-	# 	rewrite  ^(.*)$  /system/maintenance.html last;
-	# 	break;
-	# }
+  # error_page 503 @maintenance;
+  # location @maintenance {
+  #   rewrite  ^(.*)$  /system/maintenance.html last;
+  #   break;
+  # }
 
-	##
-	# Virtual Host Configs
-	##
-	include <%= node[:nginx][:dir] %>/conf.d/*.conf;
-	include <%= node[:nginx][:dir] %>/sites-enabled/*;
+  ##
+  # Virtual Host Configs
+  ##
+  include <%= node[:nginx][:dir] %>/default-host.conf
+  include <%= node[:nginx][:dir] %>/conf.d/*.conf;
+  include <%= node[:nginx][:dir] %>/sites-enabled/*;
 }
