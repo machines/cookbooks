@@ -46,7 +46,7 @@ directory "/mnt/default-host/public" do
 end
 
 template "/mnt/default-host/public/index.html" do
-  source "default-site-page.html.erb"
+  source "default-host-page.html.erb"
   owner "root"
   group "root"
   mode "0755"
