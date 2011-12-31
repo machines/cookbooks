@@ -60,7 +60,7 @@ http {
   ##
   # Virtual Host Configs
   ##
-  include <%= node[:nginx][:dir] %>/default-host.conf
+  include <%= node[:nginx][:dir] %>/default-host.conf;
   include <%= node[:nginx][:dir] %>/conf.d/*.conf;
   include <%= node[:nginx][:dir] %>/sites-enabled/*;
 }
