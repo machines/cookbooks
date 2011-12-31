@@ -76,18 +76,18 @@ end
   end
 end
 
-template "nginx.conf" do
-  path "#{node[:nginx][:dir]}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :restart, "service[nginx]", :immediately
-end
-
 template "default-host.conf" do
   path "#{node[:nginx][:dir]}/default-host.conf"
   source "default-host.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, "service[nginx]", :delayed
+end
+
+template "nginx.conf" do
+  path "#{node[:nginx][:dir]}/nginx.conf"
+  source "nginx.conf.erb"
   owner "root"
   group "root"
   mode "0644"
