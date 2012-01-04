@@ -11,3 +11,17 @@ end
 package "percona-server-server-5.5" do
   action :install
 end
+
+service "mysql" do
+  supports status: true, restart: true, reload: true
+  action :nothing
+end
+
+template "/etc/mysql/my.cnf" do
+  cookbook "mysql"
+  source "my.cnf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, resources(service: "mysql")
+end
