@@ -21,7 +21,7 @@ max_allowed_packet             = 16M
 max_connect_errors             = 1000000
 
 # DATA STORAGE #
-datadir                        = /var/run/mysqld
+datadir                        = /var/lib/mysql
 
 # BINARY LOGGING #
 log_bin                        = /var/run/mysqld/mysql-bin
@@ -48,7 +48,7 @@ innodb_file_per_table          = 1
 innodb_buffer_pool_size        = 6G
 
 # LOGGING #
-log_error                      = /var/run/mysqld/mysql-error.log
+log_error                      = /var/log/mysql/error.log
 log_queries_not_using_indexes  = 1
 slow_query_log                 = 1
-slow_query_log_file            = /var/run/mysqld/mysql-slow.log
+slow_query_log_file            = /var/log/mysql/slow.log
