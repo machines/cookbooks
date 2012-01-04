@@ -17,11 +17,11 @@ service "mysql" do
   action :nothing
 end
 
-template "/etc/mysql/my.cnf" do
-  cookbook "mysql"
-  source "my.cnf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
-  notifies :restart, resources(service: "mysql")
-end
+# template "/etc/mysql/my.cnf" do
+#   cookbook "mysql"
+#   source "my.cnf.erb"
+#   owner "root"
+#   group "root"
+#   mode "0644"
+#   notifies :restart, resources(service: "mysql")
+# end
