@@ -6,7 +6,7 @@ execute "Add newrelic apt source" do
 end
 
 execute "Add newrelic key to apt keyring" do
-  command "apt-key adv --keyserver hkp://subkeys.pgp.net --recv-keys 548C16BF && apt-get update"
+  command "wget -O - http://download.newrelic.com/548C16BF.gpg | apt-key add - && apt-get update"
   not_if "gpg --keyring /etc/apt/trusted.gpg --list-keys | grep '1024D/548C16BF'"
 end
 
