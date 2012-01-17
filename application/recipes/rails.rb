@@ -137,7 +137,7 @@ node.run_state[:rails_apps].each do |app|
 
   # Deploy the application
   deploy_revision app['id'] do
-    revision app['revision'][app['environment']]
+    revision app['revision']
     repository app['repository']
     user app['owner']
     group app['group']
