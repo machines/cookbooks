@@ -174,7 +174,7 @@ node.run_state[:rails_apps].each do |app|
       end
     end
 
-    before_symlink do
+    before_restart do
       bash "Precompile assets" do
         environment env_vars
         cwd release_path
