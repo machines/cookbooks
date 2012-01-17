@@ -43,7 +43,6 @@ node.run_state[:rails_apps].each do |app|
         f.print(app["deploy_key"])
         f.close
       end
-      not_if do ::File.exists?("#{app['deploy_to']}/id_deploy"); end
     end
 
     file "#{app['deploy_to']}/id_deploy" do
