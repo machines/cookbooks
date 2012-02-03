@@ -22,7 +22,7 @@ default[:redis][:snapshots]   = {
 
 default[:redis][:dbfilename]                = "redis_state.rdb"
 default[:redis][:rdbcompression]            = "yes"
-default[:redis][:bind_address]              = "0.0.0.0"
+default[:redis][:bind]                      = false
 default[:redis][:unixsocket]                = false
 default[:redis][:loglevel]                  = "notice"
 
