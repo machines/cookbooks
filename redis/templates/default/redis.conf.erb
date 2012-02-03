@@ -79,11 +79,17 @@ syslog-enabled <%= node.redis.syslog_enabled %>
 <% end -%>
 
 # Specify the syslog identity.
-#
-syslog-ident <%= node[:redis][:syslog_ident] %>
+<% if node.redis.syslog_ident -%>
+syslog-ident <%= node.redis.syslog_ident %>
+<% else -%>
+# syslog-ident redis
+<% end -%>
 
 # Specify the syslog facility.  Must be USER or between LOCAL0-LOCAL7.
-syslog-facility <%= node[:redis][:syslog_facility] %>
+<% if node.redis.syslog_facility -%>
+syslog-facility <%= node.redis.syslog_facility %>
+<% else -%>
+# syslog-facility local0
 <% end -%>
 
 # Set the number of databases. The default database is DB 0, you can select
