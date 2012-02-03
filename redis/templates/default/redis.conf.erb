@@ -22,27 +22,37 @@ daemonize no
 # When running daemonized, Redis writes a pid file in /var/run/redis.pid by
 # default. You can specify a custom pid file location here.
 #
-pidfile <%= node[:redis][:pidfile] %>
+pidfile <%= node.redis.pidfile %>
 
 # Accept connections on the specified port, default is 6379.
 # If port 0 is specified Redis will not listen on a TCP socket.
 #
-port <%= node[:redis][:port] %>
+port <%= node.redis.port %>
 
 # If you want you can bind a single interface, if the bind option is not
 # specified all the interfaces will listen for incoming connections.
 #
-bind <%= node[:redis][:bind_address] %>
+<% if node.redis.bind -%>
+bind <%= node.redis.bind %>
+<% else -%>
+# bind 127.0.0.1
+<% end -%>
 
 # Specify the path for the unix socket that will be used to listen for
 # incoming connections. There is no default, so Redis will not listen
 # on a unix socket when not specified.
 #
-<%= "unixsocket #{node[:redis][:unixsocket]}" if node[:redis][:unixsocket] %>
+<% if node.redis.unixsocket -%>
+unixsocket <%= node.redis.unixsocket %>
+unixsocketperm <%= node.redis.unixsocketperm %>
+<% else -%>
+# unixsocket /tmp/redis.sock
+# unixsocketperm 755
+<% end -%>
 
 # Close the connection after a client is idle for N seconds (0 to disable)
 #
-timeout <%= node[:redis][:timeout] %>
+timeout <%= node.redis.timeout %>
 
 # Set server verbosity to 'debug'
 # it can be one of:
@@ -51,19 +61,22 @@ timeout <%= node[:redis][:timeout] %>
 # notice (moderately verbose, what you want in production probably)
 # warning (only very important / critical messages are logged)
 #
-loglevel <%= node[:redis][:loglevel] %>
+loglevel <%= node.redis.loglevel %>
 
 # Specify the log file name. Also 'stdout' can be used to force
 # Redis to log on the standard output. Note that if you use standard
 # output for logging but daemonize, logs will be sent to /dev/null
 #
-logfile <%= node[:redis][:logfile] %>
+logfile <%= node.redis.logfile %>
 
-<% if node[:redis][:syslog_enabled] == "yes" -%>
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
 #
-syslog-enabled <%= node[:redis][:syslog_enabled] %>
+<% if node.redis.syslog_enabled -%>
+syslog-enabled <%= node.redis.syslog_enabled %>
+<% else -%>
+# syslog-enabled no
+<% end -%>
 
 # Specify the syslog identity.
 #
@@ -77,7 +90,7 @@ syslog-facility <%= node[:redis][:syslog_facility] %>
 # a different one on a per-connection basis using SELECT <dbid> where
 # dbid is a number between 0 and 'databases'-1
 #
-databases <%= node[:redis][:databases] %>
+databases <%= node.redis.databases %>
 
 ################################ SNAPSHOTTING  #################################
 #
@@ -103,11 +116,11 @@ save <%= interval %> <%= keys %>
 # For default that's set to 'yes' as it's almost always a win.
 # If you want to save some CPU in the saving child set it to 'no' but
 # the dataset will likely be bigger if you have compressible values or keys.
-rdbcompression <%= node[:redis][:rdbcompression] %>
+rdbcompression <%= node.redis.rdbcompression %>
 
 # The filename where to dump the DB
 #
-dbfilename <%= node[:redis][:dbfilename] %>
+dbfilename <%= node.redis.dbfilename %>
 
 # The working directory.
 #
@@ -118,7 +131,7 @@ dbfilename <%= node[:redis][:dbfilename] %>
 #
 # Note that you must specify a directory here, not a file name.
 #
-dir <%= node[:redis][:datadir] %>
+dir <%= node.redis.datadir %>
 
 ################################# REPLICATION #################################
 
@@ -165,7 +178,7 @@ slave-serve-stale-data <%= node[:redis][:slave_serve_stale_data] %>
 #
 # This should stay commented out for backward compatibility and because most
 # people do not need auth (e.g. they run their own servers).
-# 
+#
 # Warning: since Redis is pretty fast an outside user can try up to
 # 150k passwords per second against a good box. This means that you should
 # use a very strong password otherwise it will be very easy to break.
@@ -232,14 +245,14 @@ maxmemory <%= node[:redis][:maxmemory].to_i * 1024 * 1024 %>
 
 # MAXMEMORY POLICY: how Redis will select what to remove when maxmemory
 # is reached? You can select among five behavior:
-# 
+#
 # volatile-lru -> remove the key with an expire set using an LRU algorithm
 # allkeys-lru -> remove any key accordingly to the LRU algorithm
 # volatile-random -> remove a random key with an expire set
 # allkeys->random -> remove a random key, any key
 # volatile-ttl -> remove the key with the nearest expire time (minor TTL)
 # noeviction -> don't expire at all, just return an error on write operations
-# 
+#
 # Note: with all the kind of policies, Redis will return an error on write
 #       operations, when there are not suitable keys for eviction.
 #
@@ -290,7 +303,7 @@ appendonly <%= node[:redis][:appendonly] %>
 appendfilename <%= node[:redis][:appendfilename] %>
 
 # The fsync() call tells the Operating System to actually write data on disk
-# instead to wait for more data in the output buffer. Some OS will really flush 
+# instead to wait for more data in the output buffer. Some OS will really flush
 # data on disk, some other OS will just try to do it ASAP.
 #
 # Redis supports three different modes:
@@ -329,7 +342,7 @@ appendfsync <%= node[:redis][:appendfsync] %>
 # the same as "appendfsync none", that in pratical terms means that it is
 # possible to lost up to 30 seconds of log in the worst scenario (with the
 # default Linux settings).
-# 
+#
 # If you have latency problems turn this to "yes". Otherwise leave it as
 # "no" that is the safest pick from the point of view of durability.
 #
@@ -353,7 +366,7 @@ vm-enabled <%= node[:redis][:vm_enabled] %>
 # file for every redis process you are running. Redis will complain if the
 # swap file is already in use.
 #
-# The best kind of storage for the Redis swap file (that's accessed at random) 
+# The best kind of storage for the Redis swap file (that's accessed at random)
 # is a Solid State Disk (SSD).
 #
 # *** WARNING *** if you are using a shared hosting the default of putting
@@ -443,7 +456,7 @@ set-max-intset-entries 512
 # that is rhashing, the more rehashing "steps" are performed, so if the
 # server is idle the rehashing is never complete and some more memory is used
 # by the hash table.
-# 
+#
 # The default is to use this millisecond 10 times every second in order to
 # active rehashing the main dictionaries, freeing memory when possible.
 #
