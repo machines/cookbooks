@@ -39,16 +39,16 @@ directory node[:nginx][:dir] do
 end
 
 directory "/mnt/default-host/public" do
-  owner "root"
-  group "root"
+  owner node.deploy_user
+  group node.deploy_user
   mode "0755"
   recursive true
 end
 
 template "/mnt/default-host/public/index.html" do
   source "default-host-page.html.erb"
-  owner "root"
-  group "root"
+  owner node.deploy_user
+  group node.deploy_user
   mode "0755"
 end
 
@@ -61,8 +61,8 @@ end
 
 %w{ sites-available sites-enabled conf.d }.each do |dir|
   directory "#{node[:nginx][:dir]}/#{dir}" do
-    owner "root"
-    group "root"
+    owner node.deploy_user
+    group node.deploy_user
     mode "0755"
   end
 end
@@ -79,8 +79,8 @@ end
 template "default-host.conf" do
   path "#{node[:nginx][:dir]}/default-host.conf"
   source "default-host.erb"
-  owner "root"
-  group "root"
+  owner node.deploy_user
+  group node.deploy_user
   mode "0644"
   notifies :restart, "service[nginx]", :delayed
 end
