@@ -22,7 +22,7 @@ if node.nginx.passenger.enabled
 
   bash "extract passenger archive" do
     cwd "/usr/local/src"
-    code "tar zxf /usr/local/src/passenger.tar.gz"
+    code "tar zxf /usr/local/src/passenger.tgz"
   end
 end
 
