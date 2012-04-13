@@ -8,7 +8,7 @@ server {
   server_name _;
 
   root /mnt/default-host/public;
-  access_log <%= node[:nginx][:log_dir] %>/default-access.log;
-  error_log <%= node[:nginx][:log_dir] %>/default-error.log;
+  access_log <%= node.nginx.log_dir %>/default-access.log;
+  error_log <%= node.nginx.log_dir %>/default-error.log;
   rewrite_log on;
 }
