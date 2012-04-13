@@ -1,68 +1,104 @@
-#
-# Cookbook Name:: nginx
-# Recipe:: default
-# Author:: Gerhard Lazu <gerhard@lazu.co.uk>
-#
-# Copyright 2011, Gerhard Lazu
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-#
+package "libpcre3"
+package "libpcre3-dev"
+package "libssl-dev"
 
-require_recipe "apt"
+node.set[:nginx][:install_path] = "/opt/nginx-#{node.nginx.version}"
+node.set[:nginx][:binary]       = "#{node.nginx.install_path}/sbin/nginx"
+configure_flags = [
+  "--prefix=#{node.nginx.install_path}",
+  "--conf-path=#{node.nginx.dir}/nginx.conf",
+  "--with-http_ssl_module",
+  "--with-http_gzip_static_module",
+]
 
-apt_repository "nginx" do
-  uri "http://ppa.launchpad.net/nginx/stable/ubuntu"
-  distribution "lucid"
-  components ["main"]
-  keyserver "keyserver.ubuntu.com"
-  key "C300EE8C"
-  action :add
-end
+if node.passenger.enabled
+  configure_flags << "--add-module=#{node.nginx.passenger.nginx_module}"
 
-package "nginx"
+  remote_file "/usr/local/src/passenger.tar.gz" do
+    source "https://github.com/FooBarWidget/passenger/tarball/experimental"
+    action :create_if_missing
+  end
 
-directory node[:nginx][:log_dir] do
-  mode 0755
-  owner node[:nginx][:user]
-  action :create
-end
-
-%w{nxensite nxdissite}.each do |nxscript|
-  template "/usr/sbin/#{nxscript}" do
-    source "#{nxscript}.erb"
-    mode 0755
-    owner "root"
-    group "root"
+  bash "extract passenger archive" do
+    cwd "/usr/local/src"
+    code "tar zxf /usr/local/src/passenger.tar.gz"
   end
 end
 
-template "nginx.conf" do
-  path "#{node[:nginx][:dir]}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
+remote_file "/usr/local/src/nginx-#{node.nginx.version}.tar.gz" do
+  source "http://nginx.org/download/nginx-#{node.nginx.version}.tar.gz"
+  checksum node.nginx.checksum
+  action :create_if_missing
+end
+
+bash "compile_nginx_source" do
+  cwd "/usr/local/src"
+  code <<-EOH
+    tar zxf nginx-#{node.nginx.version}.tar.gz
+    cd nginx-#{node.nginx.version} && ./configure #{configure_flags}
+    make && make install
+  EOH
+  creates node.nginx.binary
   notifies :restart, "service[nginx]"
 end
 
-template "#{node[:nginx][:dir]}/sites-available/default" do
-  source "default-site.erb"
+directory node.nginx.log_dir do
+  mode 0755
+  owner node.nginx.user
+end
+
+directory node.nginx.dir do
   owner "root"
   group "root"
-  mode 0644
+  mode "0755"
+end
+
+directory "/mnt/default-host/public" do
+  owner node.deploy_user
+  group node.deploy_user
+  mode "0755"
+  recursive true
+end
+
+template "/mnt/default-host/public/index.html" do
+  source "default-host-page.html.erb"
+  owner node.deploy_user
+  group node.deploy_user
+  mode "0755"
+end
+
+template "/etc/init.d/nginx" do
+  source "nginx.init.erb"
+  owner "root"
+  group "root"
+  mode "0755"
+end
+
+directory "#{node.nginx.dir}/sites" do
+  owner node.deploy_user
+  group node.deploy_user
+  mode "0755"
+end
+
+template "default-host.conf" do
+  path "#{node.nginx.dir}/default-host.conf"
+  source "default-host.erb"
+  owner node.deploy_user
+  group node.deploy_user
+  mode "0644"
+  notifies :restart, "service[nginx]", :delayed
+end
+
+template "nginx.conf" do
+  path "#{node.nginx.dir}/nginx.conf"
+  source "nginx.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, "service[nginx]", :immediately
 end
 
 service "nginx" do
   supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
+  action :enable
 end

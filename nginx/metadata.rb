@@ -1,11 +1,9 @@
-maintainer        "Gerhard Lazu"
-maintainer_email  "gerhard@lazu.co.uk"
+maintainer        "VirtMachine"
+maintainer_email  "support@virtmachine.com"
 license           "Apache 2.0"
 description       "Installs and configures nginx"
 version           "1.0.15"
 
-recipe "nginx", "Installs nginx package and sets up configuration with Debian apache style with sites-enabled/sites-available"
-recipe "nginx::source", "Installs nginx from source and sets up configuration with Debian apache style with sites-enabled/sites-available"
+recipe "nginx", "Installs Nginx from source with the Phusion Passenger module"
 
 supports "ubuntu"
-supports "debian"

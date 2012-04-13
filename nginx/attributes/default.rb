@@ -1,4 +1,5 @@
 default[:nginx][:version]            = "1.0.15"
+default[:nginx][:checksum]           = "1daf3950623c90b084e7eceb104071596060aca5c721bf890549fc2990b1ebe6"
 
 set[:nginx][:dir]                    = "/etc/nginx"
 set[:nginx][:log_dir]                = "/var/log/nginx"
@@ -8,7 +9,7 @@ set[:nginx][:user]                   = "www-data"
 default[:nginx][:worker_processes]   = cpu[:total] * 3
 default[:nginx][:pid]                = "/var/run/nginx.pid"
 
-default[:nginx][:worker_connections] = 2048
+default[:nginx][:worker_connections] = 1024
 default[:nginx][:multi_accept]       = "off"
 
 default[:nginx][:keepalive_timeout]             = 65
@@ -37,3 +38,8 @@ default[:nginx][:gzip_types] = [
   "application/xml",
   "application/xml+rss"
 ]
+
+# Optional Phusion Passenger module
+default[:nginx][:passenger][:enabled] = true
+default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
+default[:nginx][:passenger][:nginx_module] = File.join(nginx[:passenger][:root], 'ext/nginx')
