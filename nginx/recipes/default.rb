@@ -14,8 +14,9 @@ configure_flags = [
 if node.nginx.passenger.enabled
   configure_flags << "--add-module=#{node.nginx.passenger.nginx_module}"
 
-  remote_file "/usr/local/src/passenger.tar.gz" do
-    source "https://github.com/FooBarWidget/passenger/tarball/experimental"
+  remote_file "/usr/local/src/passenger.tgz" do
+    source "http://virtmachine.s3.amazonaws.com/passenger.tgz"
+    checksum "fcfa3aa8b3aff1440a2e410d069f760314d51a00a01833ff1dd488700b5b8af9"
     action :create_if_missing
   end
 
