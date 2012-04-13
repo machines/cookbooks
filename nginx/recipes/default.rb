@@ -11,7 +11,7 @@ configure_flags = [
   "--with-http_gzip_static_module",
 ]
 
-if node.passenger.enabled
+if node.nginx.passenger.enabled
   configure_flags << "--add-module=#{node.nginx.passenger.nginx_module}"
 
   remote_file "/usr/local/src/passenger.tar.gz" do
