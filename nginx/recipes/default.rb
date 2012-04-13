@@ -35,7 +35,7 @@ bash "compile_nginx_source" do
   cwd "/usr/local/src"
   code <<-EOH
     tar zxf nginx-#{node.nginx.version}.tar.gz
-    cd nginx-#{node.nginx.version} && ./configure #{configure_flags}
+    cd nginx-#{node.nginx.version} && ./configure #{configure_flags.join(" ")}
     make && make install
   EOH
   creates node.nginx.binary
