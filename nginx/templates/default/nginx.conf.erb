@@ -29,6 +29,7 @@ http {
   # Passenger
   ##
   passenger_root <%= node.nginx.passenger.root %>;
+  passenger_max_pool_size <%= node.nginx.passenger.max_pool_size %>;
   <% end %>
 
   ##

@@ -43,3 +43,4 @@ default[:nginx][:gzip_types] = [
 default[:nginx][:passenger][:enabled] = true
 default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
 default[:nginx][:passenger][:nginx_module] = File.join(nginx[:passenger][:root], 'ext/nginx')
+default[:nginx][:passenger][:max_pool_size] = 30
