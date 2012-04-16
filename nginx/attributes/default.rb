@@ -40,7 +40,9 @@ default[:nginx][:gzip_types] = [
 ]
 
 # Optional Phusion Passenger module
+default[:nginx][:passenger][:url] = "http://virtmachine.s3.amazonaws.com/passenger.tgz"
+default[:nginx][:passenger][:checksum] = "1ebdb51228ecd4526baf7952b9b7e4daf823b30eb66511f84b55b7d337bd6a34"
 default[:nginx][:passenger][:enabled] = true
 default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
-default[:nginx][:passenger][:nginx_module] = File.join(nginx[:passenger][:root], 'ext/nginx')
-default[:nginx][:passenger][:max_pool_size] = 30
+default[:nginx][:passenger][:nginx_module_path] = File.join(nginx[:passenger][:root], 'ext/nginx')
+default[:nginx][:passenger][:max_pool_size] = 25

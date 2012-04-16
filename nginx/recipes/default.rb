@@ -12,11 +12,11 @@ configure_flags = [
 ]
 
 if node.nginx.passenger.enabled
-  configure_flags << "--add-module=#{node.nginx.passenger.nginx_module}"
+  configure_flags << "--add-module=#{node.nginx.passenger.nginx_module_path}"
 
   remote_file "/usr/local/src/passenger.tgz" do
-    source "http://virtmachine.s3.amazonaws.com/passenger.tgz"
-    checksum "8831eb38e87fad91a5d14269841b21702e62bda683ae0cef0ad536a0d1ff105a"
+    source node.nginx.passenger.url
+    checksum node.nginx.passenger.checksum
     action :create_if_missing
   end
 
