@@ -10,16 +10,16 @@ configure_flags = [
 if node.nginx.passenger.enabled
   configure_flags << "--add-module=#{node.nginx.passenger.nginx_module_path}"
 
-  remote_file "/usr/local/src/passenger.tgz" do
-    source node.nginx.passenger.url
-    checksum node.nginx.passenger.checksum
-    action :create_if_missing
-  end
+  # remote_file "/usr/local/src/passenger.tgz" do
+  #   source node.nginx.passenger.url
+  #   checksum node.nginx.passenger.checksum
+  #   action :create_if_missing
+  # end
 
-  bash "extract passenger archive" do
-    cwd "/usr/local/src"
-    code "tar zxf /usr/local/src/passenger.tgz"
-  end
+  # bash "extract passenger archive" do
+  #   cwd "/usr/local/src"
+  #   code "tar zxf /usr/local/src/passenger.tgz"
+  # end
 end
 
 remote_file "/usr/local/src/nginx-#{node.nginx.version}.tar.gz" do
