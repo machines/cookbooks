@@ -44,4 +44,6 @@ default[:nginx][:passenger][:enabled] = true
 default[:nginx][:passenger][:git_revision] = "2e45cba0adbe26d8171aed9e49eabc9a904a8d4f"
 default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
 default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
-default[:nginx][:passenger][:max_pool_size] = 25
+
+# Set a max process count - assumes that each app process takes up 300MB
+default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 300
