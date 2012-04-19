@@ -40,9 +40,8 @@ default[:nginx][:gzip_types] = [
 ]
 
 # Optional Phusion Passenger module
-# default[:nginx][:passenger][:url] = "http://virtmachine.s3.amazonaws.com/passenger/passenger-3.0.12.tgz"
-# default[:nginx][:passenger][:checksum] = "7bd7e9e04c1385a35ebc8f2fe1b69b557efc0d8cfe2894c1f09fde49a620ff50"
 default[:nginx][:passenger][:enabled] = true
-default[:nginx][:passenger][:root] = "/opt/rubies/1.9.3-p125/lib/ruby/gems/1.9.1/gems/passenger-3.0.12"
+default[:nginx][:passenger][:git_revision] = "2e45cba0adbe26d8171aed9e49eabc9a904a8d4f"
+default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
 default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
 default[:nginx][:passenger][:max_pool_size] = 25
