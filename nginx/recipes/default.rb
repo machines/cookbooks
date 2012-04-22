@@ -1,5 +1,3 @@
-node.set[:nginx][:install_path] = "/opt/nginx-#{node.nginx.version}"
-node.set[:nginx][:binary]       = "#{node.nginx.install_path}/sbin/nginx"
 configure_flags = [
   "--prefix=#{node.nginx.install_path}",
   "--conf-path=#{node.nginx.dir}/nginx.conf",

@@ -1,11 +1,12 @@
 default[:nginx][:version]            = "1.0.15"
 default[:nginx][:checksum]           = "c7fd8f786353451995e45ac1b82fb5c94efb4591825199fd926747168c78d640"
 
-set[:nginx][:dir]                    = "/etc/nginx"
-set[:nginx][:log_dir]                = "/var/log/nginx"
-set[:nginx][:binary]                 = "/usr/sbin/nginx"
+default[:nginx][:dir]                = "/etc/nginx"
+default[:nginx][:log_dir]            = "/var/log/nginx"
+default[:nginx][:install_path]       = "/opt/nginx-#{node.nginx.version}"
+default[:nginx][:binary]             = "#{node.nginx.install_path}/sbin/nginx"
 
-set[:nginx][:user]                   = "www-data"
+default[:nginx][:user]               = "www-data"
 default[:nginx][:worker_processes]   = cpu[:total] * 3
 default[:nginx][:pid]                = "/var/run/nginx.pid"
 
