@@ -255,6 +255,7 @@ cloud:
   aws:
     access_key: <%= node.elasticsearch.aws_access_key_id %>
     secret_key: <%= node.elasticsearch.aws_secret_access_key %>
+    region: <%= node.elasticsearch.aws_region %>
 gateway:
   type: s3
   s3:
