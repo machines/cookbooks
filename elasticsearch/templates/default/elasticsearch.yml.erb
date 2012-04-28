@@ -250,7 +250,7 @@ bootstrap.mlockall: <%= node.elasticsearch.mlockall %>
 #
 # gateway.expected_nodes: 2
 
-<% if node.elasticsearch.s3_gateway_enabled %>
+<% if node.elasticsearch.s3_gateway.enabled %>
 cloud:
   aws:
     access_key: <%= node.elasticsearch.aws_access_key_id %>
