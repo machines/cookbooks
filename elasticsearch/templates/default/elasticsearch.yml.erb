@@ -253,13 +253,13 @@ bootstrap.mlockall: <%= node.elasticsearch.mlockall %>
 <% if node.elasticsearch.s3_gateway.enabled %>
 cloud:
   aws:
-    access_key: <%= node.elasticsearch.aws_access_key_id %>
-    secret_key: <%= node.elasticsearch.aws_secret_access_key %>
-    region: <%= node.elasticsearch.aws_region %>
+    access_key: <%= node.elasticsearch.s3_gateway.aws_access_key_id %>
+    secret_key: <%= node.elasticsearch.s3_gateway.aws_secret_access_key %>
+    region: <%= node.elasticsearch.s3_gateway.aws_region %>
 gateway:
   type: s3
   s3:
-    bucket: <%= node.elasticsearch.aws_bucket %>
+    bucket: <%= node.elasticsearch.s3_gateway.aws_bucket %>
 <% end %>
 
 
