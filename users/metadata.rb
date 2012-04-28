@@ -1,5 +1,5 @@
-maintainer       "VirtMachine"
-maintainer_email "support@virtmachine.com"
+maintainer       "Machines.io"
+maintainer_email "support@machines.io"
 license          "Apache 2.0"
 description      "Add deploy users"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))

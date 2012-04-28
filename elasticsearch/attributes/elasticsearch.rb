@@ -1,5 +1,5 @@
-default[:elasticsearch][:version]    = "0.18.5"
-default[:elasticsearch][:checksum]   = "ec4cb2115cba5bc4156415b47dd0fcfe4fc054b0704ed07d4c0632e6700cd5b6"
+default[:elasticsearch][:version]    = "0.19.2"
+default[:elasticsearch][:checksum]   = "adac92d66ce91f42d9e67bd60e6b1335995f5dfdd153165fdcf1fe24b63ac59e"
 default[:elasticsearch][:dir]        = "elasticsearch-#{elasticsearch[:version]}"
 default[:elasticsearch][:source]     = "https://github.com/downloads/elasticsearch/elasticsearch/#{elasticsearch[:dir]}.tar.gz"
 
@@ -23,11 +23,11 @@ default[:elasticsearch][:work] = "/tmp"
 #
 # The minimum memory allocation for the JVM.
 # Default is 256m.
-default[:elasticsearch][:min_mem] = "64m"
+default[:elasticsearch][:min_mem] = "128m"
 #
 # The maximum memory allocation for the JVM.
 # Default is 1g.
-default[:elasticsearch][:max_mem] = "256m"
+default[:elasticsearch][:max_mem] = "512m"
 
 # Number of open files for the elasticsearch user.
 # Recommended by the official guide. 655536

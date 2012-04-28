@@ -1,5 +1,5 @@
-maintainer        "VirtMachine"
-maintainer_email  "support@virtmachine.com"
+maintainer        "Machines.io"
+maintainer_email  "support@machines.io"
 license           "Apache 2.0"
 description       "Installs and configures nginx"
 version           "1.0.15"
