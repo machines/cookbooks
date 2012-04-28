@@ -136,11 +136,11 @@
 
 # Path to directory containing configuration (this file and logging.yml):
 #
-path.conf: <%= node[:elasticsearch][:configs] %>
+path.conf: <%= node.elasticsearch.configs %>
 
 # Path to directory where to store index data allocated for this node.
 #
-path.data: <%= node[:elasticsearch][:data] %>
+path.data: <%= node.elasticsearch.data %>
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (à la RAID 0) on a file level, favouring locations with most free
@@ -150,11 +150,11 @@ path.data: <%= node[:elasticsearch][:data] %>
 
 # Path to temporary files:
 #
-path.work: <%= node[:elasticsearch][:work] %>
+path.work: <%= node.elasticsearch.work %>
 
 # Path to log files:
 #
-path.logs: <%= node[:elasticsearch][:logs] %>
+path.logs: <%= node.elasticsearch.logs %>
 
 # Path to where plugins are installed:
 #
@@ -168,7 +168,7 @@ path.logs: <%= node[:elasticsearch][:logs] %>
 #
 # Set this property to true to lock the memory:
 #
-bootstrap.mlockall: <%= node[:elasticsearch][:mlockall] %>
+bootstrap.mlockall: <%= node.elasticsearch.mlockall %>
 
 # Make sure that the ES_MIN_MEM and ES_MAX_MEM environment variables are set
 # to the same value, and that the machine has enough memory to allocate
@@ -249,6 +249,17 @@ bootstrap.mlockall: <%= node[:elasticsearch][:mlockall] %>
 # are up, begin recovery process immediately:
 #
 # gateway.expected_nodes: 2
+
+<% if node.elasticsearch.s3_gateway_enabled %>
+cloud:
+  aws:
+    access_key: <%= node.elasticsearch.aws_access_key_id %>
+    secret_key: <%= node.elasticsearch.aws_secret_access_key %>
+gateway:
+  type: s3
+  s3:
+    bucket: <%= node.elasticsearch.aws_bucket %>
+<% end %>
 
 
 ############################# Recovery Throttling #############################

@@ -13,10 +13,10 @@ default[:elasticsearch][:homedir] = "#{elasticsearch[:basedir]}/#{elasticsearch[
 default[:elasticsearch][:configs] = "/etc/elasticsearch"
 #
 # Path to log files:
-default[:elasticsearch][:logs] = "/var/log/elasticsearch"
+default[:elasticsearch][:logs] = "/mnt/elasticsearch/log"
 #
 # Path to directory where to store index data allocated for this node.
-default[:elasticsearch][:data] = "/var/db/elasticsearch"
+default[:elasticsearch][:data] = "/mnt/elasticsearch/data"
 #
 # Path to temporary files:
 default[:elasticsearch][:work] = "/tmp"
@@ -28,12 +28,6 @@ default[:elasticsearch][:min_mem] = "128m"
 # The maximum memory allocation for the JVM.
 # Default is 1g.
 default[:elasticsearch][:max_mem] = "512m"
-
-# Number of open files for the elasticsearch user.
-# Recommended by the official guide. 655536
-# USE THE BOOTSTRAP COOKBOOK FOR THIS
-# https://github.com/gchef/bootstrap-cookbook
-# default[:elasticsearch][:nofile] = 2**16
 #
 # Upstart-related, wait this long between SIGTERM and SIGKILL
 default[:elasticsearch][:timeout] = 300
@@ -41,3 +35,8 @@ default[:elasticsearch][:timeout] = 300
 # ElasticSearch performs poorly when JVM starts swapping: you should ensure that
 # it _never_ swaps.
 default[:elasticsearch][:mlockall] = true
+#
+# S3 Gateway
+default[:elasticsearch][:s3_gateway][:enabled] = true
+default[:elasticsearch][:s3_gateway][:version] = "1.5.0"
+default[:elasticsearch][:s3_gateway][:path] = "elasticsearch/elasticsearch-cloud-aws/#{node.elasticsearch.s3_gateway.version}"

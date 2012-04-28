@@ -1,7 +1,7 @@
 ES_HOME=/usr/local/lib/elasticsearch
 ES_CLASSPATH=$ES_HOME/*:$ES_HOME/sigar/*
-ES_MIN_MEM=<%= node[:elasticsearch][:min_mem] %>
-ES_MAX_MEM=<%= node[:elasticsearch][:max_mem] %>
+ES_MIN_MEM=<%= node.elasticsearch.min_mem %>
+ES_MAX_MEM=<%= node.elasticsearch.max_mem %>
 
 # min and max heap sizes should be set to the same value to avoid
 # stop-the-world GC pauses during resize, and so that we can lock the

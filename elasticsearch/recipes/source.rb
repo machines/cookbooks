@@ -3,21 +3,28 @@ user "elasticsearch" do
   shell "/bin/sh"
 end
 
-remote_file "#{node[:elasticsearch][:homedir]}.tar.gz" do
-  source node[:elasticsearch][:source]
-  checksum node[:elasticsearch][:checksum]
+remote_file "#{node.elasticsearch.homedir}.tar.gz" do
+  source node.elasticsearch.source
+  checksum node.elasticsearch.checksum
   action :create_if_missing
 end
 
 bash "Setup elasticsearch v#{node[:elasticsearch][:version]}" do
-  cwd "#{node[:elasticsearch][:basedir]}"
+  cwd "#{node.elasticsearch.basedir}"
   code %{
-    if [ ! -d #{node[:elasticsearch][:dir]} ]; then
-      tar zxf #{node[:elasticsearch][:dir]}.tar.gz
+    if [ ! -d #{node.elasticsearch.dir} ]; then
+      tar zxf #{node.elasticsearch.dir}.tar.gz
     fi
-    ln -nfs #{node[:elasticsearch][:homedir]}/bin/elasticsearch /usr/local/bin/elasticsearch
-    ln -nfs #{node[:elasticsearch][:homedir]}/lib /usr/local/lib/elasticsearch
+    ln -nfs #{node.elasticsearch.homedir}/bin/elasticsearch /usr/local/bin/elasticsearch
+    ln -nfs #{node.elasticsearch.homedir}/lib /usr/local/lib/elasticsearch
   }
+end
+
+if node.elasticsearch.s3_gateway.enabled
+  bash "Install elasticsearch S3 gateway plugin" do
+    cwd "#{node.elasticsearch.basedir}"
+    code "#{node.elasticsearch.dir}/bin/plugin -install #{node.elasticsearch.s3_gateway.path}"
+  end
 end
 
 service "elasticsearch" do
@@ -36,9 +43,9 @@ template "/etc/init/elasticsearch.conf" do
 end
 
 [
-  node[:elasticsearch][:configs],
-  node[:elasticsearch][:data],
-  node[:elasticsearch][:logs]
+  node.elasticsearch.configs,
+  node.elasticsearch.data,
+  node.elasticsearch.logs
 ].each do |dir|
   directory dir do
     owner "elasticsearch"
