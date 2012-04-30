@@ -28,7 +28,13 @@ bash "compile_nginx_source" do
     cd nginx-#{node.nginx.version} && ./configure #{configure_flags.join(" ")}
     make && make install
   EOH
-  creates node.nginx.binary
+  not_if do
+    if node.nginx.passenger.enabled
+      File.exists?("#{node.nginx.passenger.root}/libout") && File.exists("#{node.nginx.install_path}/sbin/nginx")
+    else
+      File.exists("#{node.nginx.install_path}/sbin/nginx")
+    end
+  end
   notifies :restart, "service[nginx]"
 end
 
@@ -76,7 +82,7 @@ template "default-host.conf" do
   owner node.deploy_user
   group node.deploy_user
   mode "0644"
-  notifies :restart, "service[nginx]", :delayed
+  notifies :reload, "service[nginx]", :delayed
 end
 
 template "nginx.conf" do
@@ -85,7 +91,7 @@ template "nginx.conf" do
   owner "root"
   group "root"
   mode "0644"
-  notifies :restart, "service[nginx]", :immediately
+  notifies :reload, "service[nginx]", :immediately
 end
 
 service "nginx" do
