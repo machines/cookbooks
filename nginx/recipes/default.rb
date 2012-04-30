@@ -30,9 +30,9 @@ bash "compile_nginx_source" do
   EOH
   not_if do
     if node.nginx.passenger.enabled
-      File.exists?("#{node.nginx.passenger.root}/libout") && File.exists("#{node.nginx.install_path}/sbin/nginx")
+      File.exists?("#{node.nginx.passenger.root}/libout") && File.exists?("#{node.nginx.install_path}/sbin/nginx")
     else
-      File.exists("#{node.nginx.install_path}/sbin/nginx")
+      File.exists?("#{node.nginx.install_path}/sbin/nginx")
     end
   end
   notifies :restart, "service[nginx]"
