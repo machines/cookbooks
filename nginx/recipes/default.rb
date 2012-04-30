@@ -8,7 +8,7 @@ configure_flags = [
 if node.nginx.passenger.enabled
   configure_flags << "--add-module=#{node.nginx.passenger.nginx_module_path}"
 
-  git "/usr/local/src/passenger" do
+  git node.nginx.passenger.root do
     repository "git://github.com/FooBarWidget/passenger.git"
     reference node.nginx.passenger.git_revision
     action :sync
