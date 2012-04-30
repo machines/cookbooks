@@ -43,7 +43,7 @@ default[:nginx][:gzip_types] = [
 # Optional Phusion Passenger module
 default[:nginx][:passenger][:enabled] = true
 default[:nginx][:passenger][:git_revision] = "2a7611ec26b46b04737cc42094bc29ef16877e61"
-default[:nginx][:passenger][:root] = "/usr/local/src/passenger"
+default[:nginx][:passenger][:root] = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
 default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
 
 # Set a max process count - assumes that each app process takes up 300MB
