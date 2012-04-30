@@ -16,7 +16,7 @@ node.rubies.versions.each do |ruby|
   end
 
   gems = node.rubies.gems
-  gems += mode.rubies.system_ruby_gems if ruby == node.rubies.system_ruby_version
+  gems += node.rubies.system_ruby_gems if ruby == node.rubies.system_ruby_version
 
   gems.each do |g|
     bash "install #{g[0]} #{g[1]} to #{ruby}" do
