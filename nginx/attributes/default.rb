@@ -1,5 +1,5 @@
-default[:nginx][:version]            = "1.0.15"
-default[:nginx][:checksum]           = "c7fd8f786353451995e45ac1b82fb5c94efb4591825199fd926747168c78d640"
+default[:nginx][:version]            = "1.2.0"
+default[:nginx][:checksum]           = "ac06b3aa55bf4f634b7e779272685536607183e8669809ce497151e47e518f2d"
 
 default[:nginx][:dir]                = "/etc/nginx"
 default[:nginx][:log_dir]            = "/var/log/nginx"
@@ -42,9 +42,10 @@ default[:nginx][:gzip_types] = [
 
 # Optional Phusion Passenger module
 default[:nginx][:passenger][:enabled] = true
-default[:nginx][:passenger][:git_revision] = "2a7611ec26b46b04737cc42094bc29ef16877e61"
+default[:nginx][:passenger][:git_revision] = "1dbb423e852cfada766f262854a5c43690c68232"
 default[:nginx][:passenger][:root] = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
 default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
+default[:nginx][:passenger][:log_level] = 0
 
 # Set a max process count - assumes that each app process takes up 300MB
 default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 300

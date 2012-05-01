@@ -32,6 +32,7 @@ http {
   passenger_max_pool_size <%= node.nginx.passenger.max_pool_size %>;
   passenger_show_version_in_header off;
   passenger_friendly_error_pages off;
+  passenger_log_level <%= node.nginx.passenger.log_level %>;
   <% end %>
 
   ##
