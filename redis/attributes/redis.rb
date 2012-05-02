@@ -1,5 +1,5 @@
-default[:redis][:version]   = "2.4.9"
-default[:redis][:checksum]  = "ac420c9f01f5e1d4e977401936f8da81d2401e65c03de2e0ca11eba1cc71c874"
+default[:redis][:version]   = "2.6.0-rc2"
+default[:redis][:checksum]  = "9fc14e503b634e6a793b1f8eade59c858361b78e2e0e6a06932f3fafe5747023"
 default[:redis][:dir]       = "redis-#{redis.version}"
 default[:redis][:source]    = "http://redis.googlecode.com/files/#{redis.dir}.tar.gz"
 default[:redis][:srcdir]    = "/usr/local/src"
