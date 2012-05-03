@@ -8,3 +8,8 @@ template "monitrc" do
   mode "0600"
   notifies :restart, "service[monit]", :immediately
 end
+
+service "monit" do
+  supports :status => true, :restart => true
+  action :enable
+end
