@@ -33,6 +33,9 @@ http {
   passenger_show_version_in_header off;
   passenger_friendly_error_pages off;
   passenger_log_level <%= node.nginx.passenger.log_level %>;
+  passenger_spawn_method <%= node.nginx.passenger.spawn_method %>;
+  passenger_pool_idle_time <%= node.nginx.passenger.pool_idle_time %>;
+  passenger_max_instances_per_app <%= node.nginx.passenger.max_instances_per_app %>;
   <% end %>
 
   ##

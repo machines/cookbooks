@@ -46,6 +46,9 @@ default[:nginx][:passenger][:git_revision] = "4b718d0a18b06962917ebbad32ec837e80
 default[:nginx][:passenger][:root] = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
 default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
 default[:nginx][:passenger][:log_level] = 0
+default[:nginx][:passenger][:spawn_method] = "smart"
+default[:nginx][:passenger][:pool_idle_time] = 300
+default[:nginx][:passenger][:max_instances_per_app] = 0
 
 # Set a max process count - assumes that each app process takes up 300MB
 default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 300
