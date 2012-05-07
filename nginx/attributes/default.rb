@@ -1,19 +1,23 @@
-default[:nginx][:version]            = "1.2.0"
-default[:nginx][:checksum]           = "ac06b3aa55bf4f634b7e779272685536607183e8669809ce497151e47e518f2d"
+default[:nginx][:version]  = "1.2.0"
+default[:nginx][:checksum] = "ac06b3aa55bf4f634b7e779272685536607183e8669809ce497151e47e518f2d"
 
-default[:nginx][:dir]                = "/etc/nginx"
-default[:nginx][:log_dir]            = "/var/log/nginx"
-default[:nginx][:install_path]       = "/opt/nginx-#{node.nginx.version}"
-default[:nginx][:binary]             = "#{node.nginx.install_path}/sbin/nginx"
+default[:nginx][:dir]          = "/etc/nginx"
+default[:nginx][:log_dir]      = "/var/log/nginx"
+default[:nginx][:install_path] = "/opt/nginx-#{node.nginx.version}"
+default[:nginx][:binary]       = "#{node.nginx.install_path}/sbin/nginx"
 
-default[:nginx][:user]               = "www-data"
-default[:nginx][:worker_processes]   = cpu[:total] * 3
-default[:nginx][:pid]                = "/var/run/nginx.pid"
+default[:nginx][:user]                 = "www-data"
+default[:nginx][:worker_processes]     = cpu[:total] * 3
+default[:nginx][:worker_rlimit_nofile] = 1024
+default[:nginx][:pid]                  = "/var/run/nginx.pid"
 
 default[:nginx][:worker_connections] = 1024
 default[:nginx][:multi_accept]       = "off"
 
-default[:nginx][:keepalive_timeout]             = 65
+default[:nginx][:client_body_timeout]           = 60
+default[:nginx][:client_header_timeout]         = 60
+default[:nginx][:keepalive_timeout]             = 75
+default[:nginx][:send_timeout]                  = 60
 default[:nginx][:types_hash_max_size]           = 2048
 default[:nginx][:server_tokens]                 = "off"
 default[:nginx][:server_names_hash_bucket_size] = 64
@@ -30,14 +34,13 @@ default[:nginx][:gzip_buffers]      = "16 8k"
 default[:nginx][:gzip_http_version] = "1.1"
 default[:nginx][:gzip_types] = [
   "text/plain",
-  "text/html",
   "text/css",
-  "text/javascript",
   "application/json",
   "application/x-javascript",
   "text/xml",
   "application/xml",
-  "application/xml+rss"
+  "application/xml+rss",
+  "text/javascript"
 ]
 
 # Optional Phusion Passenger module
