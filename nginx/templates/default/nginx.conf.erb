@@ -27,7 +27,6 @@ http {
   client_header_timeout   <%= node.nginx.client_header_timeout %>;
   keepalive_timeout       <%= node.nginx.keepalive_timeout %>;
   send_timeout            <%= node.nginx.send_timeout %>;
-  ignore_invalid_headers  <%= node.nginx.ignore_invalid_headers %>;
 
   types_hash_max_size   <%= node.nginx.types_hash_max_size %>;
   server_tokens         <%= node.nginx.server_tokens %>;
