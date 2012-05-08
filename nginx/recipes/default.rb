@@ -13,12 +13,6 @@ if node.nginx.passenger.enabled
     reference node.nginx.passenger.git_revision
     action :sync
   end
-
-  %w(passenger-status passenger-memory-stats).each do |cmd|
-    link "/usr/local/bin/#{cmd}" do
-      to "#{node.nginx.passenger.root}/bin/#{cmd}"
-    end
-  end
 end
 
 remote_file "/usr/local/src/nginx-#{node.nginx.version}.tar.gz" do
