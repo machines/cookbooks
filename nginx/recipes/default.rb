@@ -15,8 +15,8 @@ if node.nginx.passenger.enabled
   end
 
   %w(passenger-status passenger-memory-stats).each do |cmd|
-    link "#{node.nginx.passenger.root}/bin/#{cmd}" do
-      to "/usr/local/bin/#{cmd}"
+    link "/usr/local/bin/#{cmd}" do
+      to "#{node.nginx.passenger.root}/bin/#{cmd}"
     end
   end
 end
