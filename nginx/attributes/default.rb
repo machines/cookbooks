@@ -44,14 +44,18 @@ default[:nginx][:gzip_types] = [
 ]
 
 # Optional Phusion Passenger module
-default[:nginx][:passenger][:enabled] = true
-default[:nginx][:passenger][:git_revision] = "5a29f08a8b5e4d8588304b9e803bee8db0850da3"
-default[:nginx][:passenger][:root] = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
-default[:nginx][:passenger][:nginx_module_path] = File.join(nginx.passenger.root, 'ext/nginx')
-default[:nginx][:passenger][:log_level] = 0
-default[:nginx][:passenger][:spawn_method] = "smart"
-default[:nginx][:passenger][:pool_idle_time] = 300
+default[:nginx][:passenger][:enabled]               = true
+default[:nginx][:passenger][:git_revision]          = "5a29f08a8b5e4d8588304b9e803bee8db0850da3"
+default[:nginx][:passenger][:root]                  = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
+default[:nginx][:passenger][:nginx_module_path]     = File.join(nginx.passenger.root, 'ext/nginx')
+default[:nginx][:passenger][:log_level]             = 0
+default[:nginx][:passenger][:spawn_method]          = "smart"
+default[:nginx][:passenger][:pool_idle_time]        = 300
 default[:nginx][:passenger][:max_instances_per_app] = 0
 
-# Set a max process count - assumes that each app process takes up 300MB
-default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 300
+# Set a max process count - assumes that each app process takes up 150MB real memory
+default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 150
+
+# Custom memory management of Passenger instances
+default[:nginx][:passenger][:memory_management_enabled] = true
+default[:nginx][:passenger][:max_memory_per_instance]   = 400

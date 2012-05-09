@@ -13,6 +13,13 @@ if node.nginx.passenger.enabled
     reference node.nginx.passenger.git_revision
     action :sync
   end
+
+  if node.nginx.passenger.memory_management_enabled
+    cron "passenger_memory_management" do
+      command %(for i in `#{node.nginx.passenger.root}/bin/passenger-memory-stats | grep "Passenger RackApp" | awk '{if ($4>#{node.nginx.passenger.max_memory_per_instance}) print $1}'`; do kill -9 $i; done)
+      only_if { File.exist?("#{node.nginx.passenger.root}/bin/passenger-memory-stats") }
+    end
+  end
 end
 
 remote_file "/usr/local/src/nginx-#{node.nginx.version}.tar.gz" do
