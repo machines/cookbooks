@@ -18,6 +18,7 @@ if node.nginx.passenger.enabled
     cron "passenger_memory_management" do
       command %(for i in `#{node.nginx.passenger.root}/bin/passenger-memory-stats | grep "Passenger RackApp" | awk '{if ($4>#{node.nginx.passenger.max_memory_per_instance}) print $1}'`; do kill -9 $i; done)
       path "/usr/local/rbenv/shims:/usr/local/rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games"
+      mailto nil
       only_if { File.exist?("#{node.nginx.passenger.root}/bin/passenger-memory-stats") }
     end
   end
