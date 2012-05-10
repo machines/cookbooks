@@ -22,7 +22,7 @@ default[:nginx][:types_hash_max_size]           = 2048
 default[:nginx][:server_tokens]                 = "off"
 default[:nginx][:server_names_hash_bucket_size] = 64
 default[:nginx][:server_name_in_redirect]       = "off"
-default[:nginx][:client_max_boxy_size]          = "100M"
+default[:nginx][:client_max_body_size]          = "100M"
 
 default[:nginx][:gzip]              = "on"
 default[:nginx][:gzip_disable]      = "msie6"
