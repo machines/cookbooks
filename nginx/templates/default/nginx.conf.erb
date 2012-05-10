@@ -28,8 +28,9 @@ http {
   keepalive_timeout       <%= node.nginx.keepalive_timeout %>;
   send_timeout            <%= node.nginx.send_timeout %>;
 
-  types_hash_max_size   <%= node.nginx.types_hash_max_size %>;
-  server_tokens         <%= node.nginx.server_tokens %>;
+  types_hash_max_size     <%= node.nginx.types_hash_max_size %>;
+  server_tokens           <%= node.nginx.server_tokens %>;
+  client_max_body_size    <%= node.nginx.client_max_body_size %>;
 
   server_names_hash_bucket_size <%= node.nginx.server_names_hash_bucket_size %>;
   server_name_in_redirect       <%= node.nginx.server_name_in_redirect %>;
