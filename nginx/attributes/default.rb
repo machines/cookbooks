@@ -46,7 +46,7 @@ default[:nginx][:gzip_types] = [
 
 # Optional Phusion Passenger module
 default[:nginx][:passenger][:enabled]               = true
-default[:nginx][:passenger][:git_revision]          = "582629f14d66d81222fc1f55a66864e5f4c4e0a4"
+default[:nginx][:passenger][:git_revision]          = "f2fc0359ba9faadf6d1a28f20c75d3121d5b06c5"
 default[:nginx][:passenger][:root]                  = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
 default[:nginx][:passenger][:nginx_module_path]     = File.join(nginx.passenger.root, 'ext/nginx')
 default[:nginx][:passenger][:log_level]             = 0
