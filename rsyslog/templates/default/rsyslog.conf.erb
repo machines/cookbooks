@@ -10,6 +10,7 @@
 #### MODULES ####
 #################
 
+$ModLoad imfile
 $ModLoad imuxsock # provides support for local system logging
 $ModLoad imklog   # provides kernel logging support (previously done by rklogd)
 #$ModLoad immark  # provides --MARK-- message capability
@@ -57,4 +58,4 @@ $WorkDirectory /var/spool/rsyslog
 #
 $IncludeConfig /etc/rsyslog.d/*.conf
 
-*.* @<%= node.papertrail.hostname %>:<%= node.papertrail.port %>
+*.* @<%= node.rsyslog.papertrail.hostname %>:<%= node.rsyslog.papertrail.port %>
