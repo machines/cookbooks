@@ -93,6 +93,14 @@ template "default-host.conf" do
   notifies :reload, "service[nginx]", :delayed
 end
 
+template "/etc/rsyslog.d/nginx-error.conf" do
+  source "nginx-error.rsyslog.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, "service[rsyslog]", :delayed
+end
+
 template "nginx.conf" do
   path "#{node.nginx.dir}/nginx.conf"
   source "nginx.conf.erb"

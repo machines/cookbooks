@@ -1,0 +1,5 @@
+$ModLoad imfile
+$InputFileName <%= node.nginx.install_path %>/logs/error.log
+$InputFileTag nginx-error:
+$InputFileStateFile stat-nginx-error
+$InputRunFileMonitor
