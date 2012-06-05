@@ -1,5 +1,5 @@
-default[:nginx][:version]  = "1.2.0"
-default[:nginx][:checksum] = "ac06b3aa55bf4f634b7e779272685536607183e8669809ce497151e47e518f2d"
+default[:nginx][:version]  = "1.2.1"
+default[:nginx][:checksum] = "994ad97cbf6f7045f95ea9d6d401aad1e95766671e402c48af85aba5235a2dd7"
 
 default[:nginx][:dir]          = "/etc/nginx"
 default[:nginx][:log_dir]      = "/var/log/nginx"
