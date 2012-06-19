@@ -13,7 +13,7 @@ default[:rubies][:gems] = [
 
 # Gems installed to the default system ruby
 default[:rubies][:system_ruby_gems] = [
-  ["chef", "0.10.10"],
+  ["chef", "10.12.0"],
   ["god", "0.12.1"],
   ["backup", "3.0.24"],
   ["remote_syslog", "1.6.5"]
