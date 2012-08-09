@@ -1,5 +1,5 @@
-default[:nginx][:version]  = "1.2.2"
-default[:nginx][:checksum] = "409477c7a9fba58c110a176fd7965b9db188bcf8be0e7f8a0731b8ae1e6ee880"
+default[:nginx][:version]  = "1.2.3"
+default[:nginx][:checksum] = "06a1153b32b43f100ee9147fe230917deea648f0155111c749e35da120646bf5"
 
 default[:nginx][:dir]          = "/etc/nginx"
 default[:nginx][:log_dir]      = "/var/log/nginx"
@@ -46,7 +46,7 @@ default[:nginx][:gzip_types] = [
 
 # Optional Phusion Passenger module
 default[:nginx][:passenger][:enabled]               = true
-default[:nginx][:passenger][:git_revision]          = "f00dffd05321c28f3f04ce33015e56784943b381"
+default[:nginx][:passenger][:git_revision]          = "f62689f4f51018dee43d964e0665c25f33a05d40"
 default[:nginx][:passenger][:root]                  = "/usr/local/src/passenger-#{nginx.passenger.git_revision}"
 default[:nginx][:passenger][:nginx_module_path]     = File.join(nginx.passenger.root, 'ext/nginx')
 default[:nginx][:passenger][:log_level]             = 0
