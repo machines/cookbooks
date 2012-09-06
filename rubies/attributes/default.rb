@@ -8,7 +8,7 @@ default[:rubies][:rbenv_path]          = "/usr/local/rbenv"
 
 # Gems installed on all rubies
 default[:rubies][:gems] = [
-  ["bundler", "1.1.5"]
+  ["bundler", "1.2.0"]
 ]
 
 # Gems installed to the default system ruby
@@ -16,5 +16,5 @@ default[:rubies][:system_ruby_gems] = [
   ["chef", "10.12.0"],
   ["god", "0.12.1"],
   ["backup", "3.0.25"],
-  ["remote_syslog", "1.6.5"]
+  ["remote_syslog", "1.6.6.1"]
 ]
