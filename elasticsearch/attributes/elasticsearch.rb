@@ -1,5 +1,5 @@
-default[:elasticsearch][:version]    = "0.19.8"
-default[:elasticsearch][:checksum]   = "fd1614c9ed4d8045af4efc3d9a74a4b41e90eef0982333457abb0228ea65bdf5"
+default[:elasticsearch][:version]    = "0.19.10"
+default[:elasticsearch][:checksum]   = "afc493990c206430988984ea43fec2af7c154778ce9cdb8eb8989740213bb5ef"
 default[:elasticsearch][:dir]        = "elasticsearch-#{elasticsearch[:version]}"
 default[:elasticsearch][:source]     = "https://github.com/downloads/elasticsearch/elasticsearch/#{elasticsearch[:dir]}.tar.gz"
 
@@ -38,5 +38,5 @@ default[:elasticsearch][:mlockall] = true
 #
 # S3 Gateway
 default[:elasticsearch][:s3_gateway][:enabled] = true
-default[:elasticsearch][:s3_gateway][:version] = "1.8.0"
+default[:elasticsearch][:s3_gateway][:version] = "1.9.0"
 default[:elasticsearch][:s3_gateway][:path] = "elasticsearch/elasticsearch-cloud-aws/#{node.elasticsearch.s3_gateway.version}"
