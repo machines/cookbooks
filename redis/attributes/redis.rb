@@ -11,6 +11,7 @@ default[:redis][:config]    = "#{redis.configdir}/#{redis.port}.conf"
 default[:redis][:logfile]   = "/var/log/redis_#{redis.port}.log"
 default[:redis][:pidfile]   = "/var/run/redis_#{redis.port}.pid"
 default[:redis][:init]      = "upstart"
+default[:redis][:daemonize] = "no"
 
 default[:redis][:timeout]     = 300
 default[:redis][:databases]   = 16
