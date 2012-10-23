@@ -45,7 +45,7 @@ unless `redis-server -v 2>/dev/null`.include?(node.redis.version)
       if [ ! -d #{node.redis.dir} ]; then
         tar zxf #{node.redis.dir}.tar.gz
       fi
-      cd #{node.redis.dir} && make && make install
+      cd #{node.redis.dir} && make install
     }
   end
 end
