@@ -29,8 +29,7 @@ unless `redis-server -v 2>/dev/null`.include?(node.redis.version)
     only_if "[ -e /usr/local/bin/redis-server ]"
   end
 
-  # ensuring we have this directory
-  #
+  # Ensure we have the source directory
   directory node.redis.srcdir
 
   remote_file "#{node.redis.srcdir}/#{node.redis.dir}.tar.gz" do
@@ -58,7 +57,10 @@ file node.redis.logfile do
   backup false
 end
 
-template node[:redis][:config] do
+# Ensure we have the config directory
+directory node.redis.configdir
+
+template node.redis.config do
   source "redis.conf.erb"
   owner "redis"
   group "redis"

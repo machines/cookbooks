@@ -3,10 +3,11 @@ default[:redis][:checksum]  = "bf4de82b3f6cdde216c40f10667a00e65ae0fb8adc89c8b36
 default[:redis][:dir]       = "redis-#{redis.version}"
 default[:redis][:source]    = "http://redis.googlecode.com/files/#{redis.dir}.tar.gz"
 default[:redis][:srcdir]    = "/usr/local/src"
+default[:redis][:configdir] = "/etc/redis"
 
 default[:redis][:port]      = 6379
 default[:redis][:datadir]   = "/var/db/redis/#{redis.port}"
-default[:redis][:config]    = "/etc/redis/#{redis.port}.conf"
+default[:redis][:config]    = "#{redis.configdir}/#{redis.port}.conf"
 default[:redis][:logfile]   = "/var/log/redis_#{redis.port}.log"
 default[:redis][:pidfile]   = "/var/run/redis_#{redis.port}.pid"
 default[:redis][:init]      = "upstart"
