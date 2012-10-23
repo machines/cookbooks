@@ -9,4 +9,4 @@ stop on [!2345]
 respawn
 respawn limit 10 5
 
-exec sudo -u redis /usr/local/bin/redis-server <%= node[:redis][:config] %>
+exec sudo -u redis /usr/local/bin/redis-server <%= node.redis.config %>
