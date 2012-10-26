@@ -16,5 +16,5 @@ default[:rubies][:system_ruby_gems] = [
   ["chef", "10.16.2"],
   ["god", "0.13.1"],
   ["backup", "3.0.25"],
-  ["remote_syslog", "1.6.7.2"]
+  ["remote_syslog", "1.6.8"]
 ]
