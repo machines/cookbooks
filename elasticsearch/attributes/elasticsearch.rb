@@ -1,5 +1,5 @@
-default[:elasticsearch][:version]    = "0.19.10"
-default[:elasticsearch][:checksum]   = "afc493990c206430988984ea43fec2af7c154778ce9cdb8eb8989740213bb5ef"
+default[:elasticsearch][:version]    = "0.19.11"
+default[:elasticsearch][:checksum]   = "214096db24e90b429e667b0ec23c9f97426bdf2f46d1105dcbf3334468984b1c"
 default[:elasticsearch][:dir]        = "elasticsearch-#{elasticsearch[:version]}"
 default[:elasticsearch][:source]     = "https://github.com/downloads/elasticsearch/elasticsearch/#{elasticsearch[:dir]}.tar.gz"
 
