@@ -28,7 +28,7 @@ node.rubies.versions.each do |ruby|
       cwd "/opt/rubies/#{ruby}/bin"
       code "./gem install #{g[0]} -v #{g[1]} --no-rdoc --no-ri"
       not_if %(./gem list --local | grep -E "(#{g[0]})(.+)(#{g[1]})"), cwd: "/opt/rubies/#{ruby}/bin"
-      environment { "RBENV_VERSION" => ruby }
+      environment { "RBENV_VERSION" => "#{ruby}" }
     end
   end
 
