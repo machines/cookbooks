@@ -15,6 +15,11 @@ node.rubies.versions.each do |ruby|
     }
   end
 
+  # Rehash
+  bash "rbenv rehash" do
+    code "#{node.rubies.rbenv_path}/bin/rbenv rehash"
+  end
+
   gems = node.rubies.gems
   gems += node.rubies.system_ruby_gems if ruby == node.rubies.system_ruby_version
 
@@ -33,7 +38,7 @@ bash "set default ruby to #{node.rubies.system_ruby_version}" do
   code "#{node.rubies.rbenv_path}/bin/rbenv global #{node.rubies.system_ruby_version}"
 end
 
-# Rehash
+# Rehash (again)
 bash "rbenv rehash" do
   code "#{node.rubies.rbenv_path}/bin/rbenv rehash"
 end
