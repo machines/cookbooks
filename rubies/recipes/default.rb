@@ -26,7 +26,7 @@ node.rubies.versions.each do |ruby|
   gems.each do |g|
     bash "install #{g[0]} #{g[1]} to #{ruby}" do
       cwd "/opt/rubies/#{ruby}/bin"
-      code "./gem install #{g[0]} -v #{g[1]} --no-rdoc --no-ri"
+      code "RBENV_VERSION=#{ruby} ./gem install #{g[0]} -v #{g[1]} --no-rdoc --no-ri"
       not_if %(./gem list --local | grep -E "(#{g[0]})(.+)(#{g[1]})"), cwd: "/opt/rubies/#{ruby}/bin"
     end
   end
