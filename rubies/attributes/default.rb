@@ -4,9 +4,9 @@ default[:rubies][:versions] = [
   "1.9.3-p194",
   "1.9.2-p320",
   "1.9.2-p290",
-  "1.8.7-p370",
+  "1.8.7-p371",
   "1.8.7-p358",
-  "jruby-1.7.0"
+  "jruby-1.7.1"
 ]
 default[:rubies][:source]              = "http://packages.machines.io/rubies"
 default[:rubies][:install_path]        = "/opt/rubies"
