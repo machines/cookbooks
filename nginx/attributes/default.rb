@@ -58,5 +58,5 @@ default[:nginx][:passenger][:max_instances_per_app] = 0
 default[:nginx][:passenger][:max_pool_size] = node.memory.total.to_i / 1024 / 150
 
 # Custom memory management of Passenger instances
-default[:nginx][:passenger][:memory_management_enabled] = true
+default[:nginx][:passenger][:memory_management_enabled] = false
 default[:nginx][:passenger][:max_memory_per_instance]   = 400
