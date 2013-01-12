@@ -1,7 +1,7 @@
 default[:elasticsearch][:version]    = "0.19.12"
 default[:elasticsearch][:checksum]   = "6337a4d8cf0212e338bbc0484035a785e851824dd0a801e4e353a587974e960d"
 default[:elasticsearch][:dir]        = "elasticsearch-#{elasticsearch[:version]}"
-default[:elasticsearch][:source]     = "https://github.com/downloads/elasticsearch/elasticsearch/#{elasticsearch[:dir]}.tar.gz"
+default[:elasticsearch][:source]     = "http://download.elasticsearch.org/elasticsearch/elasticsearch/#{elasticsearch[:dir]}.tar.gz"
 
 # The src will be downloaded here
 default[:elasticsearch][:basedir] = "/usr/local/src"
