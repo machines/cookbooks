@@ -18,7 +18,7 @@ default[:rubies][:rbenv_path]          = "/usr/local/rbenv"
 
 # Gems installed on all rubies
 default[:rubies][:gems] = [
-  ["bundler", "1.3.0.pre.5"]
+  ["bundler", "1.3.0.pre.7"]
 ]
 
 # Gems installed to the default system ruby
