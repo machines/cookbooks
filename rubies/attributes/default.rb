@@ -8,7 +8,6 @@ default[:rubies][:versions] = [
   "1.9.2-p290",
   "1.8.7-p371",
   "1.8.7-p358",
-  "jruby-1.7.1",
   "jruby-1.7.2"
 ]
 default[:rubies][:source]              = "http://packages.machines.io/rubies"
@@ -23,7 +22,7 @@ default[:rubies][:gems] = [
 
 # Gems installed to the default system ruby
 default[:rubies][:system_ruby_gems] = [
-  ["chef", "10.18.0"],
+  ["chef", "11.0.0"],
   ["god", "0.13.1"],
   ["backup", "3.0.27"],
   ["remote_syslog", "1.6.9"]
