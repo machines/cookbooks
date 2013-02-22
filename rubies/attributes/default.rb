@@ -1,6 +1,6 @@
 default[:rubies][:versions] = [
   "2.0.0-rc2",
-  "1.9.3-p385",
+  "1.9.3-p392",
   "1.9.3-p327",
   "1.9.3-p286",
   "1.9.3-p194",
@@ -12,7 +12,7 @@ default[:rubies][:versions] = [
 ]
 default[:rubies][:source]              = "http://packages.machines.io/rubies"
 default[:rubies][:install_path]        = "/opt/rubies"
-default[:rubies][:system_ruby_version] = "1.9.3-p385"
+default[:rubies][:system_ruby_version] = "1.9.3-p392"
 default[:rubies][:rbenv_path]          = "/usr/local/rbenv"
 
 # Gems installed on all rubies
