@@ -4,4 +4,4 @@ All applications running on the Machines platform have these cookbooks available
 
 ## Copyright
 
-&copy; 2012 JK Tech, Inc.
+&copy; 2013 JK Tech, Inc.
