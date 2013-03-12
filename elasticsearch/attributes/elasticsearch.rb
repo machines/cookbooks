@@ -23,11 +23,11 @@ default[:elasticsearch][:work] = "/tmp"
 #
 # The minimum memory allocation for the JVM.
 # Default is 256m.
-default[:elasticsearch][:min_mem] = "128m"
+default[:elasticsearch][:min_mem] = "#{(node.memory.total.to_i * 0.6 ).floor / 1024}m"
 #
 # The maximum memory allocation for the JVM.
 # Default is 1g.
-default[:elasticsearch][:max_mem] = "512m"
+default[:elasticsearch][:max_mem] = "#{(node.memory.total.to_i * 0.6 ).floor / 1024}m"
 #
 # Upstart-related, wait this long between SIGTERM and SIGKILL
 default[:elasticsearch][:timeout] = 300
