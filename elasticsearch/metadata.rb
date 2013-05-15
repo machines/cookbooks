@@ -1,9 +1,23 @@
-maintainer        "Machines.io"
-maintainer_email  "support@machines.io"
-license           "Apache 2.0"
-description       "Installs and configures elasticsearch 0.19.2"
-version           "0.19.2"
+maintainer       "karmi"
+maintainer_email "karmi@karmi.cz"
+license          "Apache"
+description      "Installs and configures elasticsearch"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.markdown'))
+version          "0.2.7"
+name             "elasticsearch"
 
-recipe "elasticsearch::source", "Installs elasticsearch from source"
+depends 'ark'
 
-supports "ubuntu"
+recommends 'build-essential'
+recommends 'xml'
+recommends 'java'
+recommends 'monit'
+
+provides 'elasticsearch'
+provides 'elasticsearch::data'
+provides 'elasticsearch::ebs'
+provides 'elasticsearch::aws'
+provides 'elasticsearch::nginx'
+provides 'elasticsearch::proxy'
+provides 'elasticsearch::plugins'
+provides 'elasticsearch::monit'
