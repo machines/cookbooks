@@ -21,9 +21,7 @@
 
 package "unzip"
 package "libtool"
-package "rsync"
 package "autoconf"
-package "make"
 package "autogen" unless platform_family?("rhel", "fedora")
 
 if platform?("freebsd")
