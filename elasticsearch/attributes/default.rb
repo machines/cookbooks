@@ -12,8 +12,8 @@ node.normal[:elasticsearch]    = DeepMerge.merge(node.normal[:elasticsearch].to_
 
 # === VERSION AND LOCATION
 #
-default.elasticsearch[:version]       = "0.90.1"
-default.elasticsearch[:checksum]      = "2a5d4390a24a7feff12a0f1ac0e75c53b333316c44cf2e783dad9d7d7b03fb5b"
+default.elasticsearch[:version]       = "0.90.5"
+default.elasticsearch[:checksum]      = "f14ff217039b5c398a9256b68f46a90093e0a1e54e89f94ee6a2ee7de557bd6d"
 default.elasticsearch[:host]          = "http://download.elasticsearch.org"
 default.elasticsearch[:repository]    = "elasticsearch/elasticsearch"
 default.elasticsearch[:filename]      = "elasticsearch-#{node.elasticsearch[:version]}.tar.gz"
