@@ -1,4 +1,4 @@
-default[:nginx][:version]  = "1.4.6"
+default[:nginx][:version]  = "1.4.7"
 default[:nginx][:checksum] = "23b8ff4a76817090678f91b0efbfcef59a93492f6612dc8370c44c1f1ce1b626"
 
 default[:nginx][:dir]          = "/etc/nginx"
