@@ -1,16 +1,7 @@
 default[:rubies][:versions] = [
   "2.1.1",
-  "2.0.0-p353",
-  "2.0.0-p247",
-  "1.9.3-p484",
-  "1.9.3-p448",
-  "1.9.3-p429",
-  "1.9.3-p392",
-  "1.9.3-p327",
-  "1.9.3-p286",
-  "1.9.3-p194",
-  "1.9.2-p320",
-  "1.9.2-p290",
+  "2.0.0-p451",
+  "1.9.3-p545",
   "1.8.7-p371",
   "1.8.7-p358",
   "jruby-1.7.11"
@@ -22,7 +13,7 @@ default[:rubies][:rbenv_path]          = "/usr/local/rbenv"
 
 # Gems installed on all rubies
 default[:rubies][:gems] = [
-  ["bundler", "1.5.3"]
+  ["bundler", "1.6.1"]
 ]
 
 # Gems installed to the default system ruby
